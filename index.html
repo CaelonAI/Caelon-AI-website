@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caelon AI - Automatiza y crece</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4aa;
+            --secondary-color: #0066ff;
+            --dark-bg: #0a0a0a;
+            --dark-card: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --accent-gradient: linear-gradient(135deg, #00d4aa 0%, #0066ff 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 0 2rem;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(0, 212, 170, 0.1) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g" cx="50%" cy="50%"><stop offset="0%" stop-color="%2300d4aa" stop-opacity="0.1"/><stop offset="100%" stop-color="%23000" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="300" r="150" fill="url(%23g)"/><circle cx="800" cy="700" r="200" fill="url(%23g)"/><circle cx="600" cy="200" r="100" fill="url(%23g)"/></svg>') center/cover;
+            opacity: 0.3;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 170, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 102, 255, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .ai-circuit-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="circuit" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 0v10m0 20v10m-10-20h10m20 0h10m-20 10h40m-40 10h40" stroke="%2300d4aa" stroke-width="0.5" opacity="0.3" fill="none"/></pattern></defs><rect width="400" height="400" fill="url(%23circuit)"/><circle cx="200" cy="200" r="60" fill="none" stroke="%2300d4aa" stroke-width="2" opacity="0.5"/><text x="200" y="210" text-anchor="middle" fill="%2300d4aa" font-size="24" font-weight="bold">AI</text></svg>') center/contain no-repeat;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--accent-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 212, 170, 0.4);
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 212, 170, 0.1);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Cases */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .case-card {
+            background: linear-gradient(135deg, var(--dark-card) 0%, rgba(17, 17, 17, 0.8) 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 170, 0.3);
+        }
+
+        .case-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        /* Process */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .process-step h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 4rem;
+            text-align: center;
+            margin-top: 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .contact p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section {
+                padding: 4rem 1rem;
+            }
+            
+            .services-grid, .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact {
+                padding: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">C</div>
+                <span>Caelon AI</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#casos">Casos de Uso</a></li>
+                <li><a href="#proceso">Proceso</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background"></div>
+        <div class="ai-circuit-bg floating"></div>
+        <div class="hero-content">
+            <h1>Automatiza y crece.<br>Factura más, trabaja menos.</h1>
+            <p>Convierte tus procesos en ganancias con automatizaciones inteligentes que trabajan 24/7 por ti.</p>
+            <a href="#contacto" class="cta-button">
+                <span>🚀</span>
+                Empezar Ahora
+            </a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="servicios" class="section fade-in">
+        <h2>Servicios de Automatización</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🤖</div>
+                <h3>Automatización de Procesos</h3>
+                <p>Optimizamos tus flujos de trabajo eliminando tareas repetitivas y aumentando la eficiencia operacional.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h3>Integración de Sistemas</h3>
+                <p>Conectamos todas tus herramientas y plataformas para que trabajen como un ecosistema unificado.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>IA y Machine Learning</h3>
+                <p>Implementamos soluciones inteligentes que aprenden y se adaptan a las necesidades de tu negocio.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cases -->
+    <section id="casos" class="section fade-in">
+        <h2>Casos de Uso por Industria</h2>
+        <div class="cases-grid">
+            <div class="case-card">
+                <h4>🏪 Retail & E-commerce</h4>
+                <p>Automatización de inventarios, gestión de pedidos, atención al cliente con chatbots inteligentes y análisis predictivo de ventas.</p>
+            </div>
+            <div class="case-card">
+                <h4>🏥 Salud y Medicina</h4>
+                <p>Gestión de historiales médicos, programación de citas, seguimiento de pacientes y automatización de reportes clínicos.</p>
+            </div>
+            <div class="case-card">
+                <h4>🎓 Educación</h4>
+                <p>Plataformas de aprendizaje adaptativo, evaluación automática, seguimiento del progreso estudiantil y gestión administrativa.</p>
+            </div>
+            <div class="case-card">
+                <h4>💼 Servicios Financieros</h4>
+                <p>Procesamiento de transacciones, análisis de riesgo automatizado, detección de fraude y reportes regulatorios.</p>
+            </div>
+            <div class="case-card">
+                <h4>🏭 Manufactura</h4>
+                <p>Control de calidad automatizado, mantenimiento predictivo, optimización de la cadena de suministro y monitoreo en tiempo real.</p>
+            </div>
+            <div class="case-card">
+                <h4>📱 Agencias Digitales</h4>
+                <p>Automatización de campañas, reporting de clientes, gestión de leads y optimización de procesos creativos.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="proceso" class="section fade-in">
+        <h2>Nuestro Proceso de Trabajo</h2>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h4>Análisis</h4>
+                <p>Evaluamos tus procesos actuales e identificamos oportunidades de automatización.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h4>Diseño</h4>
+                <p>Creamos una solución personalizada que se adapte perfectamente a tu negocio.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h4>Implementación</h4>
+                <p>Desarrollamos e integramos la automatización con tus sistemas existentes.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h4>Optimización</h4>
+                <p>Monitoreamos el rendimiento y optimizamos continuamente para máximos resultados.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contacto" class="section">
+        <div class="contact fade-in">
+            <h3>¿Listo para automatizar tu negocio?</h3>
+            <p>Descubre cómo nuestras soluciones pueden transformar tu empresa y aumentar tus ingresos.</p>
+            <a href="mailto:hola@caelonai.com" class="cta-button">
+                <span>✉️</span>
+                Contactar Ahora
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(10, 10, 10, 0.95)';
+            } else {
+                nav.style.background = 'rgba(10, 10, 10, 0.8)';
+            }
+        });
+    </script>
+</body>
+</html>
