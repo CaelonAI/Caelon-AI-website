@@ -6,17 +6,251 @@
     <title>Caelon AI - Automatiza y crece</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;900&display=swap" rel="stylesheet">
     <style>
-        /* ... [Tu CSS original aquí, SIN las reglas de .cursor y .cursor-follower] ... */
+        :root {
+            --primary-color: #00F5A0;
+            --secondary-color: #00D9F5;
+            --dark-bg: #0a0a0a;
+            --dark-card: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --accent-gradient: linear-gradient(90deg, #00F5A0, #00D9F5);
+            --glow-color: rgba(0, 245, 160, 0.4);
+            --neon-glow: 0 0 12px #00F5A0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Exo 2', sans-serif;
             background: var(--dark-bg);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
-            cursor: default; /* Restaurar cursor normal */
         }
-        /* Elimina TODA la sección .cursor y .cursor-follower de tu CSS */
-        /* ...Resto del CSS continúa igual... */
+        /* Loader */
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--dark-bg);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader {
+            width: 60px; height: 60px;
+            border: 3px solid rgba(0, 245, 160, 0.1);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Partículas flotantes */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.25;
+            animation: float-particles 22s infinite linear;
+        }
+        @keyframes float-particles {
+            0%   { transform: translateY(100vh) rotate(0deg); opacity: 0;}
+            10%  { opacity: 0.3;}
+            90%  { opacity: 0.3;}
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0;}
+        }
+        /* Navegación */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 10, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 245, 160, 0.1);
+            transform: translateY(0);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            text-shadow: var(--neon-glow);
+        }
+        .logo-image {
+            width: 45px; 
+            height: 45px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5));
+            animation: logo-pulse 4s ease-in-out infinite;
+        }
+        @keyframes logo-pulse {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5)) scale(1); }
+            50%      { filter: drop-shadow(0 0 15px rgba(0, 245, 160, 0.8)) scale(1.05); }
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-family: 'Exo 2', sans-serif;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--primary-color);
+            background: rgba(0, 245, 160, 0.1);
+            transform: translateY(-2px);
+            text-shadow: 0 0 8px rgba(0, 245, 160, 0.6);
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-container { flex-direction: column; }
+            .section { padding: 4rem 1rem;}
+        }
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            padding: 0 2rem;
+            overflow: hidden;
+        }
+        .hero-video {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+            pointer-events: none;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(10, 10, 10, 0.65);
+            z-index: -1;
+        }
+        .hero-content {
+            max-width: 700px;
+            margin-left: 10%;
+            z-index: 2;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            font-family: 'Exo 2', sans-serif;
+            margin-bottom: 1.5rem;
+            color: #FFFFFF;
+            text-shadow: var(--neon-glow);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 400;
+            color: #FFFFFF;
+            text-shadow: 0 0 8px rgba(0, 245, 160, 0.3);
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+        .cta-button {
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.75rem;
+            padding: 1.4rem 3rem;
+            background: var(--accent-gradient);
+            color: #FFFFFF; 
+            text-decoration: none; 
+            border-radius: 999px;
+            font-weight: 500; 
+            font-size: 1.1rem;
+            font-family: 'Exo 2', sans-serif;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(0, 245, 160, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 245, 160, 0.6), 0 20px 50px rgba(0, 245, 160, 0.3);
+        }
+        /* Sección general */
+        .section {
+            padding: 8rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            font-family: 'Exo 2', sans-serif;
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #FFFFFF;
+            text-shadow: var(--neon-glow);
+            position: relative;
+        }
+        .services-grid, .cases-grid, .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 5rem;
+        }
+        /* Services, Cases, Process, Contact... mantén las clases diseñadas previamente */
+
+        .contact {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.7) 100%);
+            border-radius: 30px;
+            padding: 5rem;
+            text-align: center;
+            margin-top: 6rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative; overflow: hidden;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section { padding: 4rem 1rem;}
+            .services-grid, .cases-grid, .process-steps { grid-template-columns:1fr; gap:2rem;}
+            .contact { padding:3rem 2rem; margin-top:4rem;}
+            .hero-content { margin-left: 0; max-width: 100%; }
+            .hero-video, .hero-overlay { width: 100vw; height: 100vh;}
+        }
     </style>
 </head>
 <body>
@@ -24,10 +258,8 @@
     <div class="loading-overlay" id="loading">
         <div class="loader"></div>
     </div>
-
     <!-- Partículas flotantes -->
     <div class="particles" id="particles"></div>
-
     <!-- Navegación -->
     <nav id="navbar">
         <div class="nav-container">
@@ -43,16 +275,13 @@
             </ul>
         </div>
     </nav>
-
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section class="hero">
-        <!-- Video de fondo -->
-        <video autoplay muted loop class="hero-video">
-            <source src="./videos/Fondo-Hero-section.mp4" type="video/mp4">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="./images/Fondo-Hero-section.mp4" type="video/mp4">
             Tu navegador no soporta videos HTML5.
         </video>
         <div class="hero-overlay"></div>
-        <div class="ai-circuit-bg"></div>
         <div class="hero-content">
             <h1>Automatiza y crece.<br>Factura más, trabaja menos.</h1>
             <p>Convierte tus procesos en ganancias con automatizaciones inteligentes que trabajan 24/7 por ti.</p>
@@ -62,9 +291,8 @@
             </a>
         </div>
     </section>
-
-    <!-- Sección de Servicios -->
-    <section id="servicios" class="section fade-in">
+    <!-- Servicios -->
+    <section id="servicios" class="section">
         <h2>Servicios</h2>
         <div class="services-grid">
             <div class="service-card">
@@ -84,9 +312,8 @@
             </div>
         </div>
     </section>
-
-    <!-- Sección de Casos de Uso -->
-    <section id="casos" class="section fade-in">
+    <!-- Casos de Uso -->
+    <section id="casos" class="section">
         <h2>Casos de Uso</h2>
         <div class="cases-grid">
             <div class="case-card">
@@ -106,9 +333,8 @@
             </div>
         </div>
     </section>
-
-    <!-- Sección de Proceso -->
-    <section id="proceso" class="section fade-in">
+    <!-- Proceso -->
+    <section id="proceso" class="section">
         <h2>¿Cómo trabajamos?</h2>
         <div class="process-steps">
             <div class="process-step">
@@ -133,9 +359,8 @@
             </div>
         </div>
     </section>
-
-    <!-- Sección de Contacto -->
-    <section id="contacto" class="section fade-in">
+    <!-- Contacto -->
+    <section id="contacto" class="section">
         <div class="contact">
             <h3>¿Listo para automatizar tu negocio?</h3>
             <p>Escríbenos y lleva tu empresa al siguiente nivel con la ayuda de Caelon AI.</p>
@@ -147,39 +372,22 @@
             </form>
         </div>
     </section>
-
     <!-- Footer -->
     <footer style="text-align:center;padding:2rem 0;color:#a3a3a3;">
         © 2025 Caelon AI - Todos los derechos reservados.
     </footer>
-
     <script>
-    // Elimina scripts relacionados con el cursor personalizado
     document.addEventListener('DOMContentLoaded', function() {
         // Loader simple
         setTimeout(() => {
             document.getElementById('loading').classList.add('hidden');
         }, 900);
-
         // Navbar fondo dinámico al hacer scroll
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 20) navbar.classList.add('scrolled');
             else navbar.classList.remove('scrolled');
         });
-
-        // Animación fade-in al hacer scroll
-        const faders = document.querySelectorAll('.fade-in');
-        const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -30px 0px"};
-        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            });
-        }, appearOptions);
-        faders.forEach(fader => { appearOnScroll.observe(fader); });
-
         // Partículas flotantes
         function spawnParticles() {
             const container = document.getElementById('particles');
