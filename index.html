@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caelon AI - Automatiza y crece</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary-color: #00d4aa;
-            --secondary-color: #0066ff;
+            --primary-color: #00F5A0;
+            --secondary-color: #00D9F5;
             --dark-bg: #0a0a0a;
             --dark-card: #111111;
             --text-primary: #ffffff;
             --text-secondary: #a3a3a3;
-            --accent-gradient: linear-gradient(135deg, #00d4aa 0%, #0066ff 100%);
-            --glow-color: rgba(0, 212, 170, 0.4);
+            --accent-gradient: linear-gradient(90deg, #00F5A0, #00D9F5);
+            --glow-color: rgba(0, 245, 160, 0.4);
+            --neon-glow: 0 0 12px #00F5A0;
         }
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Exo 2', sans-serif;
             background: var(--dark-bg);
             color: var(--text-primary);
             line-height: 1.6;
@@ -40,7 +41,7 @@
         }
         .loader {
             width: 60px; height: 60px;
-            border: 3px solid rgba(0, 212, 170, 0.1);
+            border: 3px solid rgba(0, 245, 160, 0.1);
             border-top: 3px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -63,7 +64,7 @@
             position: fixed;
             width: 8px;
             height: 8px;
-            background: rgba(0, 212, 170, 0.5);
+            background: rgba(0, 245, 160, 0.5);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9998;
@@ -110,7 +111,7 @@
         }
         nav.scrolled {
             background: rgba(10, 10, 10, 0.95);
-            box-shadow: 0 8px 32px rgba(0, 212, 170, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 245, 160, 0.1);
             transform: translateY(0);
         }
         .nav-container {
@@ -123,28 +124,31 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
+            gap: 0.75rem;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 900;
             font-size: 1.5rem;
             letter-spacing: -0.02em;
             transform: translateY(0);
             transition: all 0.3s ease;
+            color: var(--text-primary);
+            text-shadow: var(--neon-glow);
         }
-        .logo:hover { transform: translateY(-2px) scale(1.05);}
+        .logo:hover { 
+            transform: translateY(-2px) scale(1.05);
+            text-shadow: 0 0 20px #00F5A0;
+        }
         .logo-image {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid transparent;
-            background: var(--accent-gradient);
-            padding: 2px;
+            width: 45px; 
+            height: 45px;
+            object-fit: contain;
             transition: all 0.3s ease;
+            filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5));
             animation: logo-pulse 4s ease-in-out infinite;
         }
         @keyframes logo-pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.4); transform: scale(1);}
-            50%      { box-shadow: 0 0 0 8px rgba(0, 212, 170, 0); transform: scale(1.05);}
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5)) scale(1); }
+            50%      { filter: drop-shadow(0 0 15px rgba(0, 245, 160, 0.8)) scale(1.05); }
         }
         .nav-links {
             display: flex;
@@ -171,6 +175,7 @@
             transition: all 0.3s ease;
             padding: 0.5rem 1rem;
             border-radius: 25px;
+            font-family: 'Exo 2', sans-serif;
         }
         .nav-links a::before {
             content: '';
@@ -183,8 +188,9 @@
         }
         .nav-links a:hover {
             color: var(--primary-color);
-            background: rgba(0, 212, 170, 0.1);
+            background: rgba(0, 245, 160, 0.1);
             transform: translateY(-2px);
+            text-shadow: 0 0 8px rgba(0, 245, 160, 0.6);
         }
         .nav-links a:hover::before { width: 80%;}
         @media (max-width: 768px) {
@@ -195,42 +201,50 @@
         /* Hero Section Mejorado */
         .hero {
             min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; 
+            align-items: center; 
             position: relative;
             padding: 0 2rem;
-            background-image: linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.8)), 
-                        url('./images/Fondo%20Caelon%20AI.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             overflow: hidden;
         }
+        
+        /* Video de fondo */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+        
+        /* Overlay para oscurecer el video */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.7);
+            z-index: -1;
+        }
+        
         .hero::before {
             content: '';
             position: absolute; top: 0; left: 0; right:0; bottom:0;
-            background: radial-gradient(circle at 20% 80%, rgba(0, 212, 170, 0.14) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(0, 102, 255, 0.1) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 80%, rgba(0, 245, 160, 0.14) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 217, 245, 0.1) 0%, transparent 50%);
             animation: gradient-shift 8s ease-in-out infinite;
             z-index: 1;
         }
         @keyframes gradient-shift { 0%, 100% { opacity: 0.3;} 50% { opacity: 0.55;} }
-        .hero-background {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g1" cx="50%" cy="50%"><stop offset="0%" stop-color="%2300d4aa" stop-opacity="0.1"/><stop offset="100%" stop-color="%23000" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="300" r="150" fill="url(%23g1)"/><circle cx="800" cy="700" r="200" fill="url(%23g1)"/><circle cx="600" cy="200" r="100" fill="url(%23g1)"/></svg>') center/cover;
-            opacity: 0.35;
-            animation: float-slow 15s ease-in-out infinite;
-            z-index: 1;
-        }
-        @keyframes float-slow {
-            0%, 100% { transform: translate(0, 0) rotate(0deg);}
-            33%   { transform: translate(30px, -30px) rotate(1deg);}
-            66%   { transform: translate(-20px, 20px) rotate(-1deg);}
-        }
+        
         .ai-circuit-bg {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 800px; height: 800px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="circuit" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 0v10m0 20v10m-10-20h10m20 0h10m-20 10h40m-40 10h40" stroke="%2300d4aa" stroke-width="0.5" opacity="0.3" fill="none"/><circle cx="20" cy="20" r="2" fill="%2300d4aa" opacity="0.4"/></pattern></defs><rect width="400" height="400" fill="url(%23circuit)"/><circle cx="200" cy="200" r="80" fill="none" stroke="%2300d4aa" stroke-width="2" opacity="0.6"/><circle cx="200" cy="200" r="60" fill="none" stroke="%230066ff" stroke-width="1" opacity="0.4"/><text x="200" y="210" text-anchor="middle" fill="%2300d4aa" font-size="28" font-weight="bold">AI</text></svg>') center/contain no-repeat;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="circuit" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 0v10m0 20v10m-10-20h10m20 0h10m-20 10h40m-40 10h40" stroke="%2300F5A0" stroke-width="0.5" opacity="0.3" fill="none"/><circle cx="20" cy="20" r="2" fill="%2300F5A0" opacity="0.4"/></pattern></defs><rect width="400" height="400" fill="url(%23circuit)"/><circle cx="200" cy="200" r="80" fill="none" stroke="%2300F5A0" stroke-width="2" opacity="0.6"/><circle cx="200" cy="200" r="60" fill="none" stroke="%2300D9F5" stroke-width="1" opacity="0.4"/><text x="200" y="210" text-anchor="middle" fill="%2300F5A0" font-size="28" font-weight="bold">AI</text></svg>') center/contain no-repeat;
             opacity: 0.15;
             animation: circuit-rotate 20s linear infinite, circuit-pulse 4s ease-in-out infinite;
             z-index: 2;
@@ -240,20 +254,21 @@
             to   { transform: translate(-50%, -50%) rotate(360deg);}
         }
         @keyframes circuit-pulse { 0%,100%{opacity:.15;} 50%{opacity:.23;} }
+        
         .hero-content {
-            text-align: center;
-            max-width: 900px;
+            max-width: 700px;
+            margin-left: 10%;
             z-index: 10;
             position: relative;
         }
+        
         .hero h1 {
             font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 800;
+            font-weight: 900;
+            font-family: 'Exo 2', sans-serif;
             margin-bottom: 1.5rem;
-            background: var(--accent-gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #FFFFFF;
+            text-shadow: var(--neon-glow);
             line-height: 1.1;
             letter-spacing: -0.02em;
             opacity: 0; transform: translateY(50px);
@@ -264,24 +279,36 @@
         }
         .hero p {
             font-size: 1.25rem;
-            color: var(--text-secondary);
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 400;
+            color: #FFFFFF;
+            text-shadow: 0 0 8px rgba(0, 245, 160, 0.3);
             margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto; margin-right: auto;
+            line-height: 1.7;
             opacity: 0; transform: translateY(30px);
             animation: hero-text-appear 1s ease 0.8s forwards;
         }
+        
         .cta-button {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 1.2rem 2.5rem;
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.75rem;
+            padding: 1.4rem 3rem;
             background: var(--accent-gradient);
-            color: white; text-decoration: none; border-radius: 50px;
-            font-weight: 600; font-size: 1.1rem;
+            color: #FFFFFF; 
+            text-decoration: none; 
+            border-radius: 999px;
+            font-weight: 500; 
+            font-size: 1.1rem;
+            font-family: 'Exo 2', sans-serif;
             transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
-            position: relative; overflow: hidden;
-            opacity: 0; transform: translateY(30px);
+            box-shadow: 0 10px 30px rgba(0, 245, 160, 0.3);
+            position: relative; 
+            overflow: hidden;
+            opacity: 0; 
+            transform: translateY(30px);
             animation: hero-text-appear 1s ease 1.1s forwards;
+            border: none;
         }
         .cta-button::before {
             content: '';
@@ -292,10 +319,17 @@
         .cta-button:hover::before { left: 100%;}
         .cta-button:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(0, 212, 170, 0.5);
+            box-shadow: 0 0 30px rgba(0, 245, 160, 0.6), 0 20px 50px rgba(0, 245, 160, 0.3);
         }
-        .cta-button span { animation: rocket-bounce 2s ease-in-out infinite;}
-        @keyframes rocket-bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
+        .cta-button .icon { 
+            font-size: 1.4rem;
+            animation: rocket-bounce 2s ease-in-out infinite;
+        }
+        @keyframes rocket-bounce { 
+            0%,100%{transform:translateY(0);} 
+            50%{transform:translateY(-3px);} 
+        }
+        
         /* Sección general */
         .section {
             padding: 8rem 2rem;
@@ -305,13 +339,12 @@
         }
         .section h2 {
             font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
+            font-weight: 900;
+            font-family: 'Exo 2', sans-serif;
             text-align: center;
             margin-bottom: 4rem;
-            background: var(--accent-gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #FFFFFF;
+            text-shadow: var(--neon-glow);
             position: relative;
         }
         .section h2::after {
@@ -351,8 +384,8 @@
         }
         .service-card:hover { 
             transform: translateY(-15px) rotateY(5deg);
-            border-color: rgba(0, 212, 170, 0.3);
-            box-shadow: 0 25px 60px rgba(0, 212, 170, 0.15);
+            border-color: rgba(0, 245, 160, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 245, 160, 0.15);
         }
         .service-card:hover::before { transform: translateX(0);}
         .service-icon {
@@ -371,17 +404,29 @@
         }
         .service-card:hover .service-icon {
             transform: translateY(-5px) scale(1.1) rotate(10deg);
-            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 245, 160, 0.3);
         }
         .service-card h3 {
-            font-size: 1.4rem; font-weight: 700;
-            margin-bottom: 1.5rem; color: var(--text-primary);
-            z-index: 2; transition: all 0.3s ease;
+            font-size: 1.4rem; 
+            font-weight: 500;
+            font-family: 'Exo 2', sans-serif;
+            margin-bottom: 1.5rem; 
+            color: #FFFFFF;
+            text-shadow: 0 0 8px rgba(0, 245, 160, 0.3);
+            z-index: 2; 
+            transition: all 0.3s ease;
         }
-        .service-card:hover h3 { color: var(--primary-color);}
+        .service-card:hover h3 { 
+            color: var(--primary-color);
+            text-shadow: var(--neon-glow);
+        }
         .service-card p {
-            color: var(--text-secondary); line-height: 1.7;
-            z-index: 2; transition: all 0.3s ease;
+            color: var(--text-secondary); 
+            line-height: 1.7;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 400;
+            z-index: 2; 
+            transition: all 0.3s ease;
         }
         .service-card:hover p { color: rgba(255,255,255,0.95);}
         /* Cases */
@@ -403,7 +448,7 @@
             content: '';
             position: absolute; top: -50%; left: -50%;
             width: 200%; height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 212, 170, 0.1), transparent);
+            background: conic-gradient(from 0deg, transparent, rgba(0, 245, 160, 0.1), transparent);
             animation: case-rotate 8s linear infinite; opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -414,17 +459,38 @@
         .case-card:hover::before { opacity: 1;}
         .case-card:hover {
             transform: scale(1.05) translateY(-10px);
-            border-color: rgba(0, 212, 170, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 212, 170, 0.2);
+            border-color: rgba(0, 245, 160, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 245, 160, 0.2);
         }
         .case-icon {
             font-size: 2.5rem; margin-bottom: 1.5rem;
             display: block; transition: all 0.4s ease; z-index: 2;
         }
-        .case-card:hover .case-icon { transform: scale(1.2) rotate(10deg); filter: drop-shadow(0 0 20px var(--glow-color)); }
-        .case-card h4 { font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--primary-color); z-index:2; transition: all 0.3s ease;}
-        .case-card:hover h4 { text-shadow:0 0 10px var(--glow-color);}
-        .case-card p { z-index:2; line-height:1.6; transition:all 0.3s ease;}
+        .case-card:hover .case-icon { 
+            transform: scale(1.2) rotate(10deg); 
+            filter: drop-shadow(0 0 20px var(--glow-color)); 
+        }
+        .case-card h4 { 
+            font-size: 1.3rem; 
+            font-weight: 500; 
+            font-family: 'Exo 2', sans-serif;
+            margin-bottom: 1.5rem; 
+            color: #FFFFFF;
+            text-shadow: 0 0 8px rgba(0, 245, 160, 0.3);
+            z-index:2; 
+            transition: all 0.3s ease;
+        }
+        .case-card:hover h4 { 
+            color: var(--primary-color);
+            text-shadow: var(--neon-glow);
+        }
+        .case-card p { 
+            z-index:2; 
+            line-height:1.6; 
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 400;
+            transition:all 0.3s ease;
+        }
         .case-card:hover p { color:rgba(255,255,255,0.95);}
         /* Process */
         .process-steps {
@@ -455,9 +521,12 @@
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             margin: 0 auto 2rem;
-            font-size: 1.8rem; font-weight: 800; z-index:3;
+            font-size: 1.8rem; 
+            font-weight: 900;
+            font-family: 'Exo 2', sans-serif;
+            z-index:3;
             transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 245, 160, 0.2);
             position: relative;
         }
         .step-number::before {
@@ -470,11 +539,35 @@
             mask-composite: exclude;
             opacity: 0; transition: all 0.4s ease;
         }
-        .process-step:hover .step-number { transform: scale(1.1); box-shadow: 0 15px 40px rgba(0, 212, 170, 0.4);}
-        .process-step:hover .step-number::before { opacity:1; animation:step-glow 2s ease-in-out infinite;}
-        @keyframes step-glow { 0%,100%{transform:scale(1) rotate(0deg);} 50%{transform:scale(1.1) rotate(180deg);} }
-        .process-step h4 { font-size: 1.3rem; font-weight: 600; margin-bottom: 1.5rem; transition: all 0.3s ease;}
-        .process-step:hover h4 { color: var(--primary-color);}
+        .process-step:hover .step-number { 
+            transform: scale(1.1); 
+            box-shadow: 0 15px 40px rgba(0, 245, 160, 0.4);
+        }
+        .process-step:hover .step-number::before { 
+            opacity:1; 
+            animation:step-glow 2s ease-in-out infinite;
+        }
+        @keyframes step-glow { 
+            0%,100%{transform:scale(1) rotate(0deg);} 
+            50%{transform:scale(1.1) rotate(180deg);} 
+        }
+        .process-step h4 { 
+            font-size: 1.3rem; 
+            font-weight: 500; 
+            font-family: 'Exo 2', sans-serif;
+            margin-bottom: 1.5rem; 
+            color: #FFFFFF;
+            text-shadow: 0 0 6px rgba(0, 245, 160, 0.3);
+            transition: all 0.3s ease;
+        }
+        .process-step:hover h4 { 
+            color: var(--primary-color);
+            text-shadow: var(--neon-glow);
+        }
+        .process-step p {
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 400;
+        }
         /* Contact */
         .contact {
             background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.7) 100%);
@@ -489,7 +582,7 @@
         .contact::before {
             content: '';
             position: absolute; top: -100%; left: -100%; width: 300%; height: 300%;
-            background: radial-gradient(circle, rgba(0, 212, 170, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(0, 245, 160, 0.1) 0%, transparent 70%);
             animation: contact-pulse 10s ease-in-out infinite;
         }
         @keyframes contact-pulse {
@@ -498,19 +591,20 @@
         }
         .contact h3 {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 900;
+            font-family: 'Exo 2', sans-serif;
             margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            background: var(--accent-gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #FFFFFF;
+            text-shadow: var(--neon-glow);
             position: relative; z-index:2;
         }
         .contact p {
-            color: var(--text-secondary);
+            color: #FFFFFF;
+            text-shadow: 0 0 6px rgba(0, 245, 160, 0.3);
             margin-bottom: 3rem;
             font-size: 1.2rem;
+            font-family: 'Exo 2', sans-serif;
+            font-weight: 400;
             position: relative; z-index:2;
             max-width: 600px; margin-left:auto; margin-right:auto;
         }
@@ -530,7 +624,7 @@
             .services-grid, .cases-grid { grid-template-columns:1fr; gap:2rem;}
             .contact { padding:3rem 2rem; margin-top:4rem;}
             .process-steps::before { display: none; }
-            .hero { background-attachment: scroll; }
+            .hero-content { margin-left: 5%; max-width: 90%; }
         }
     </style>
 </head>
@@ -548,7 +642,7 @@
     <nav id="navbar">
         <div class="nav-container">
             <div class="logo">
-                <img src="./images/piclumen-1754497871843.png" alt="Caelon AI Logo" class="logo-image">
+                <img src="./images/Logo.png" alt="Caelon AI Logo" class="logo-image">
                 <span>Caelon AI</span>
             </div>
             <ul class="nav-links">
@@ -561,193 +655,14 @@
     </nav>
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-background"></div>
+        <!-- Video de fondo -->
+        <video autoplay muted loop class="hero-video">
+            <source src="./videos/Fondo-Hero-section.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+        <!-- Overlay para oscurecer el video -->
+        <div class="hero-overlay"></div>
         <div class="ai-circuit-bg"></div>
         <div class="hero-content">
             <h1>Automatiza y crece.<br>Factura más, trabaja menos.</h1>
             <p>Convierte tus procesos en ganancias con automatizaciones inteligentes que trabajan 24/7 por ti.</p>
-            <a href="#contacto" class="cta-button">
-                <span>🚀</span>
-                Empezar Ahora
-            </a>
-        </div>
-    </section>
-    <!-- Servicios -->
-    <section id="servicios" class="section fade-in">
-        <h2>Servicios de Automatización</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">🤖</div>
-                <h3>Automatización de Procesos</h3>
-                <p>Optimizamos tus flujos de trabajo eliminando tareas repetitivas y aumentando la eficiencia operacional hasta un 80%.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📊</div>
-                <h3>Integración de Sistemas</h3>
-                <p>Conectamos todas tus herramientas y plataformas para que trabajen como un ecosistema unificado y sincronizado.</p>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">⚡</div>
-                <h3>IA y Machine Learning</h3>
-                <p>Implementamos soluciones inteligentes que aprenden y se adaptan continuamente a las necesidades de tu negocio.</p>
-            </div>
-        </div>
-    </section>
-    <!-- Casos -->
-    <section id="casos" class="section fade-in">
-        <h2>Casos de Uso por Industria</h2>
-        <div class="cases-grid">
-            <div class="case-card">
-                <span class="case-icon">🏪</span>
-                <h4>Retail & E-commerce</h4>
-                <p>Automatización de inventarios, gestión de pedidos, atención al cliente con chatbots inteligentes y análisis predictivo de ventas que aumentan la conversión hasta un 35%.</p>
-            </div>
-            <div class="case-card">
-                <span class="case-icon">🏥</span>
-                <h4>Salud y Medicina</h4>
-                <p>Gestión de historiales médicos, programación de citas, seguimiento de pacientes y automatización de reportes clínicos que reducen errores médicos en un 60%.</p>
-            </div>
-            <div class="case-card">
-                <span class="case-icon">🎓</span>
-                <h4>Educación</h4>
-                <p>Plataformas de aprendizaje adaptativo, evaluación automática, seguimiento del progreso estudiantil y gestión administrativa que mejoran el rendimiento académico.</p>
-            </div>
-            <div class="case-card">
-                <span class="case-icon">💼</span>
-                <h4>Servicios Financieros</h4>
-                <p>Procesamiento de transacciones, análisis de riesgo automatizado, detección de fraude y reportes regulatorios con precisión del 99.7%.</p>
-            </div>
-            <div class="case-card">
-                <span class="case-icon">🏭</span>
-                <h4>Manufactura</h4>
-                <p>Control de calidad automatizado, mantenimiento predictivo, optimización de la cadena de suministro y monitoreo en tiempo real que reduce costos operativos.</p>
-            </div>
-            <div class="case-card">
-                <span class="case-icon">📱</span>
-                <h4>Agencias Digitales</h4>
-                <p>Automatización de campañas, reporting de clientes, gestión de leads y optimización de procesos creativos que duplican la productividad del equipo.</p>
-            </div>
-        </div>
-    </section>
-    <!-- Proceso -->
-    <section id="proceso" class="section fade-in">
-        <h2>Nuestro Proceso de Trabajo</h2>
-        <div class="process-steps">
-            <div class="process-step">
-                <div class="step-number">1</div>
-                <h4>Análisis Profundo</h4>
-                <p>Evaluamos tus procesos actuales e identificamos oportunidades de automatización con ROI garantizado.</p>
-            </div>
-            <div class="process-step">
-                <div class="step-number">2</div>
-                <h4>Diseño Personalizado</h4>
-                <p>Creamos una solución a medida que se adapte perfectamente a tu negocio y objetivos específicos.</p>
-            </div>
-            <div class="process-step">
-                <div class="step-number">3</div>
-                <h4>Implementación Ágil</h4>
-                <p>Desarrollamos e integramos la automatización con tus sistemas existentes sin interrumpir tus operaciones.</p>
-            </div>
-            <div class="process-step">
-                <div class="step-number">4</div>
-                <h4>Optimización Continua</h4>
-                <p>Monitoreamos el rendimiento 24/7 y optimizamos continuamente para máximos resultados y crecimiento.</p>
-            </div>
-        </div>
-    </section>
-    <!-- Contacto -->
-    <section id="contacto" class="section">
-        <div class="contact fade-in">
-            <h3>¿Listo para automatizar tu negocio?</h3>
-            <p>Descubre cómo nuestras soluciones pueden transformar tu empresa y aumentar tus ingresos hasta un 300% en los primeros 6 meses.</p>
-            <a href="mailto:hola@caelonai.com" class="cta-button">
-                <span>✉️</span>
-                Contactar Ahora
-            </a>
-        </div>
-    </section>
-
-    <!-- SCRIPTS -->
-    <script>
-    // Loader: oculta el overlay cuando carga la página
-    window.addEventListener('load', function() {
-        document.getElementById('loading').classList.add('hidden');
-    });
-
-    // Smooth scroll para navegación
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Fade-in animación al hacer scroll
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
-    const fadeInObserver = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-    }, observerOptions);
-    document.querySelectorAll('.fade-in').forEach(el => fadeInObserver.observe(el));
-
-    // Navbar background on scroll
-    window.addEventListener('scroll', () => {
-        const nav = document.getElementById('navbar');
-        if(window.scrollY > 100) nav.classList.add('scrolled');
-        else nav.classList.remove('scrolled');
-    });
-
-    // Partículas flotantes
-    function createParticles(){
-        const particlesContainer = document.getElementById('particles');
-        if(!particlesContainer) return;
-        const N = window.innerWidth > 600 ? 24 : 9;
-        particlesContainer.innerHTML = '';
-        for(let i=0;i<N;i++){
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.left = Math.random()*100+'vw';
-            p.style.top = Math.random()*100+'vh';
-            p.style.animationDelay = (Math.random()*20)+'s';
-            p.style.background = i%2===0 ? 'var(--secondary-color)' : 'var(--primary-color)';
-            particlesContainer.appendChild(p);
-        }
-    }
-    window.addEventListener('resize', createParticles);
-    createParticles();
-
-    // Cursor personalizado
-    document.addEventListener('DOMContentLoaded',()=>{
-        const cursor = document.getElementById('cursor');
-        const follower = document.getElementById('cursor-follower');
-        if(!cursor||!follower) return;
-        let mouseX = 0, mouseY = 0, fX = 0, fY =0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX; mouseY = e.clientY;
-            cursor.style.transform = `translate(${mouseX-10}px,${mouseY-10}px)`;
-            cursor.style.opacity = 0.9;
-            follower.style.opacity = 0.6;
-        });
-        function animateFollower(){
-            fX += (mouseX-fX)/7;
-            fY += (mouseY-fY)/7;
-            follower.style.transform = `translate(${fX-4}px,${fY-4}px)`;
-            requestAnimationFrame(animateFollower);
-        }
-        animateFollower();
-        // Cursor sobre links/interact
-        document.querySelectorAll('a,button,.cta-button').forEach(el=>{
-            el.addEventListener('mouseenter',()=>{cursor.style.transform+=' scale(1.8)';});
-            el.addEventListener('mouseleave',()=>{cursor.style.transform=cursor.style.transform.replace(' scale(1.8)','');});
-        });
-    });
-    </script>
-</body>
-</html>
