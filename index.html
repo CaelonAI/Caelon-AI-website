@@ -6,626 +6,17 @@
     <title>Caelon AI - Automatiza y crece</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary-color: #00F5A0;
-            --secondary-color: #00D9F5;
-            --dark-bg: #0a0a0a;
-            --dark-card: #111111;
-            --text-primary: #ffffff;
-            --text-secondary: #a3a3a3;
-            --accent-gradient: linear-gradient(90deg, #00F5A0, #00D9F5);
-            --glow-color: rgba(0, 245, 160, 0.4);
-            --neon-glow: 0 0 12px #00F5A0;
-        }
+        /* ... [Tu CSS original aquí, SIN las reglas de .cursor y .cursor-follower] ... */
         body {
             font-family: 'Exo 2', sans-serif;
             background: var(--dark-bg);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
-            cursor: none;
+            cursor: default; /* Restaurar cursor normal */
         }
-        /* Loader */
-        .loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark-bg);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 10000;
-            opacity: 1;
-            transition: opacity 0.5s ease;
-        }
-        .loading-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .loader {
-            width: 60px; height: 60px;
-            border: 3px solid rgba(0, 245, 160, 0.1);
-            border-top: 3px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        /* Custom Cursor */
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease;
-            opacity: 0.9;
-            mix-blend-mode: difference;
-        }
-        .cursor-follower {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: rgba(0, 245, 160, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transition: all 0.15s ease;
-            opacity: 0.6;
-            mix-blend-mode: difference;
-        }
-        @media (max-width: 768px) {
-            .cursor, .cursor-follower { display: none; }
-        }
-        /* Partículas flotantes */
-        .particles {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        .particle {
-            position: absolute;
-            width: 4px; height: 4px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            opacity: 0.25;
-            animation: float-particles 22s infinite linear;
-        }
-        @keyframes float-particles {
-            0%   { transform: translateY(100vh) rotate(0deg); opacity: 0;}
-            10%  { opacity: 0.3;}
-            90%  { opacity: 0.3;}
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0;}
-        }
-        /* Navigation con glassmorphism */
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            padding: 1rem 2rem;
-            background: rgba(10, 10, 10, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
-        nav.scrolled {
-            background: rgba(10, 10, 10, 0.95);
-            box-shadow: 0 8px 32px rgba(0, 245, 160, 0.1);
-            transform: translateY(0);
-        }
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 900;
-            font-size: 1.5rem;
-            letter-spacing: -0.02em;
-            transform: translateY(0);
-            transition: all 0.3s ease;
-            color: var(--text-primary);
-            text-shadow: var(--neon-glow);
-        }
-        .logo:hover { 
-            transform: translateY(-2px) scale(1.05);
-            text-shadow: 0 0 20px #00F5A0;
-        }
-        .logo-image {
-            width: 45px; 
-            height: 45px;
-            object-fit: contain;
-            transition: all 0.3s ease;
-            filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5));
-            animation: logo-pulse 4s ease-in-out infinite;
-        }
-        @keyframes logo-pulse {
-            0%, 100% { filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5)) scale(1); }
-            50%      { filter: drop-shadow(0 0 15px rgba(0, 245, 160, 0.8)) scale(1.05); }
-        }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        .nav-links li {
-            transform: translateY(20px);
-            opacity: 0;
-            animation: slide-down 0.6s ease forwards;
-        }
-        .nav-links li:nth-child(1) { animation-delay: 0.1s;}
-        .nav-links li:nth-child(2) { animation-delay: 0.2s;}
-        .nav-links li:nth-child(3) { animation-delay: 0.3s;}
-        .nav-links li:nth-child(4) { animation-delay: 0.4s;}
-        @keyframes slide-down {
-            to { transform: translateY(0); opacity: 1;}
-        }
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            font-family: 'Exo 2', sans-serif;
-        }
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 50%;
-            width: 0; height: 2px;
-            background: var(--accent-gradient);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-        .nav-links a:hover {
-            color: var(--primary-color);
-            background: rgba(0, 245, 160, 0.1);
-            transform: translateY(-2px);
-            text-shadow: 0 0 8px rgba(0, 245, 160, 0.6);
-        }
-        .nav-links a:hover::before { width: 80%;}
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .nav-container { flex-direction: column; }
-            .section { padding: 4rem 1rem;}
-        }
-        /* Hero Section Mejorado */
-        .hero {
-            min-height: 100vh;
-            display: flex; 
-            align-items: center; 
-            position: relative;
-            padding: 0 2rem;
-            overflow: hidden;
-        }
-        
-        /* Video de fondo */
-        .hero-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-        }
-        
-        /* Overlay para oscurecer el video */
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10, 10, 10, 0.7);
-            z-index: -1;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute; top: 0; left: 0; right:0; bottom:0;
-            background: radial-gradient(circle at 20% 80%, rgba(0, 245, 160, 0.14) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(0, 217, 245, 0.1) 0%, transparent 50%);
-            animation: gradient-shift 8s ease-in-out infinite;
-            z-index: 1;
-        }
-        @keyframes gradient-shift { 0%, 100% { opacity: 0.3;} 50% { opacity: 0.55;} }
-        
-        .ai-circuit-bg {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 800px; height: 800px;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="circuit" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 0v10m0 20v10m-10-20h10m20 0h10m-20 10h40m-40 10h40" stroke="%2300F5A0" stroke-width="0.5" opacity="0.3" fill="none"/><circle cx="20" cy="20" r="2" fill="%2300F5A0" opacity="0.4"/></pattern></defs><rect width="400" height="400" fill="url(%23circuit)"/><circle cx="200" cy="200" r="80" fill="none" stroke="%2300F5A0" stroke-width="2" opacity="0.6"/><circle cx="200" cy="200" r="60" fill="none" stroke="%2300D9F5" stroke-width="1" opacity="0.4"/><text x="200" y="210" text-anchor="middle" fill="%2300F5A0" font-size="28" font-weight="bold">AI</text></svg>') center/contain no-repeat;
-            opacity: 0.15;
-            animation: circuit-rotate 20s linear infinite, circuit-pulse 4s ease-in-out infinite;
-            z-index: 2;
-        }
-        @keyframes circuit-rotate {
-            from { transform: translate(-50%, -50%) rotate(0deg);}
-            to   { transform: translate(-50%, -50%) rotate(360deg);}
-        }
-        @keyframes circuit-pulse { 0%,100%{opacity:.15;} 50%{opacity:.23;} }
-        
-        .hero-content {
-            max-width: 700px;
-            margin-left: 10%;
-            z-index: 10;
-            position: relative;
-        }
-        
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 900;
-            font-family: 'Exo 2', sans-serif;
-            margin-bottom: 1.5rem;
-            color: #FFFFFF;
-            text-shadow: var(--neon-glow);
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            opacity: 0; transform: translateY(50px);
-            animation: hero-text-appear 1s ease 0.5s forwards;
-        }
-        @keyframes hero-text-appear {
-            to { opacity: 1; transform: translateY(0);}
-        }
-        .hero p {
-            font-size: 1.25rem;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 400;
-            color: #FFFFFF;
-            text-shadow: 0 0 8px rgba(0, 245, 160, 0.3);
-            margin-bottom: 3rem;
-            line-height: 1.7;
-            opacity: 0; transform: translateY(30px);
-            animation: hero-text-appear 1s ease 0.8s forwards;
-        }
-        
-        .cta-button {
-            display: inline-flex; 
-            align-items: center; 
-            gap: 0.75rem;
-            padding: 1.4rem 3rem;
-            background: var(--accent-gradient);
-            color: #FFFFFF; 
-            text-decoration: none; 
-            border-radius: 999px;
-            font-weight: 500; 
-            font-size: 1.1rem;
-            font-family: 'Exo 2', sans-serif;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0, 245, 160, 0.3);
-            position: relative; 
-            overflow: hidden;
-            opacity: 0; 
-            transform: translateY(30px);
-            animation: hero-text-appear 1s ease 1.1s forwards;
-            border: none;
-        }
-        .cta-button::before {
-            content: '';
-            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: all 0.6s;
-        }
-        .cta-button:hover::before { left: 100%;}
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 245, 160, 0.6), 0 20px 50px rgba(0, 245, 160, 0.3);
-        }
-        .cta-button .icon { 
-            font-size: 1.4rem;
-            animation: rocket-bounce 2s ease-in-out infinite;
-        }
-        @keyframes rocket-bounce { 
-            0%,100%{transform:translateY(0);} 
-            50%{transform:translateY(-3px);} 
-        }
-        
-        /* Sección general */
-        .section {
-            padding: 8rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-        }
-        .section h2 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 900;
-            font-family: 'Exo 2', sans-serif;
-            text-align: center;
-            margin-bottom: 4rem;
-            color: #FFFFFF;
-            text-shadow: var(--neon-glow);
-            position: relative;
-        }
-        .section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px; left: 50%;
-            transform: translateX(-50%);
-            width: 100px; height: 3px;
-            background: var(--accent-gradient);
-            border-radius: 2px;
-        }
-        /* Services */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-top: 5rem;
-        }
-        .service-card {
-            background: rgba(17, 17, 17, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            padding: 3rem 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s ease;
-            position: relative;
-            overflow: hidden;
-            transform: translateY(0);
-        }
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px; background: var(--accent-gradient);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-        .service-card:hover { 
-            transform: translateY(-15px) rotateY(5deg);
-            border-color: rgba(0, 245, 160, 0.3);
-            box-shadow: 0 25px 60px rgba(0, 245, 160, 0.15);
-        }
-        .service-card:hover::before { transform: translateX(0);}
-        .service-icon {
-            width: 70px; height: 70px;
-            background: var(--accent-gradient);
-            border-radius: 20px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 2rem; font-size: 1.8rem;
-            transition: all 0.4s ease;
-            animation: icon-float 6s ease-in-out infinite;
-            position: relative; z-index: 2;
-        }
-        @keyframes icon-float {
-            0%, 100% { transform: translateY(0) rotate(0deg);}
-            50% { transform: translateY(-10px) rotate(5deg);}
-        }
-        .service-card:hover .service-icon {
-            transform: translateY(-5px) scale(1.1) rotate(10deg);
-            box-shadow: 0 10px 30px rgba(0, 245, 160, 0.3);
-        }
-        .service-card h3 {
-            font-size: 1.4rem; 
-            font-weight: 500;
-            font-family: 'Exo 2', sans-serif;
-            margin-bottom: 1.5rem; 
-            color: #FFFFFF;
-            text-shadow: 0 0 8px rgba(0, 245, 160, 0.3);
-            z-index: 2; 
-            transition: all 0.3s ease;
-        }
-        .service-card:hover h3 { 
-            color: var(--primary-color);
-            text-shadow: var(--neon-glow);
-        }
-        .service-card p {
-            color: var(--text-secondary); 
-            line-height: 1.7;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 400;
-            z-index: 2; 
-            transition: all 0.3s ease;
-        }
-        .service-card:hover p { color: rgba(255,255,255,0.95);}
-        /* Cases */
-        .cases-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 5rem;
-        }
-        .case-card {
-            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.6) 100%);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.5s ease; position: relative; overflow: hidden; transform: scale(1);
-        }
-        .case-card::before {
-            content: '';
-            position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 245, 160, 0.1), transparent);
-            animation: case-rotate 8s linear infinite; opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        @keyframes case-rotate {
-            from { transform: rotate(0deg);}
-            to   { transform: rotate(360deg);}
-        }
-        .case-card:hover::before { opacity: 1;}
-        .case-card:hover {
-            transform: scale(1.05) translateY(-10px);
-            border-color: rgba(0, 245, 160, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 245, 160, 0.2);
-        }
-        .case-icon {
-            font-size: 2.5rem; margin-bottom: 1.5rem;
-            display: block; transition: all 0.4s ease; z-index: 2;
-        }
-        .case-card:hover .case-icon { 
-            transform: scale(1.2) rotate(10deg); 
-            filter: drop-shadow(0 0 20px var(--glow-color)); 
-        }
-        .case-card h4 { 
-            font-size: 1.3rem; 
-            font-weight: 500; 
-            font-family: 'Exo 2', sans-serif;
-            margin-bottom: 1.5rem; 
-            color: #FFFFFF;
-            text-shadow: 0 0 8px rgba(0, 245, 160, 0.3);
-            z-index:2; 
-            transition: all 0.3s ease;
-        }
-        .case-card:hover h4 { 
-            color: var(--primary-color);
-            text-shadow: var(--neon-glow);
-        }
-        .case-card p { 
-            z-index:2; 
-            line-height:1.6; 
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 400;
-            transition:all 0.3s ease;
-        }
-        .case-card:hover p { color:rgba(255,255,255,0.95);}
-        /* Process */
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
-            margin-top: 5rem;
-            position: relative;
-        }
-        .process-steps::before {
-            content: '';
-            position: absolute;
-            top: 60px; left: 10%; right:10%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            opacity: 0.3; z-index: 1;
-        }
-        .process-step {
-            text-align: center;
-            padding: 2rem;
-            position: relative; z-index:2;
-            transition: all 0.4s ease;
-        }
-        .process-step:hover { transform: translateY(-10px);}
-        .step-number {
-            width: 80px; height: 80px;
-            background: var(--accent-gradient);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 2rem;
-            font-size: 1.8rem; 
-            font-weight: 900;
-            font-family: 'Exo 2', sans-serif;
-            z-index:3;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0, 245, 160, 0.2);
-            position: relative;
-        }
-        .step-number::before {
-            content: '';
-            position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            background: var(--accent-gradient);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude;
-            opacity: 0; transition: all 0.4s ease;
-        }
-        .process-step:hover .step-number { 
-            transform: scale(1.1); 
-            box-shadow: 0 15px 40px rgba(0, 245, 160, 0.4);
-        }
-        .process-step:hover .step-number::before { 
-            opacity:1; 
-            animation:step-glow 2s ease-in-out infinite;
-        }
-        @keyframes step-glow { 
-            0%,100%{transform:scale(1) rotate(0deg);} 
-            50%{transform:scale(1.1) rotate(180deg);} 
-        }
-        .process-step h4 { 
-            font-size: 1.3rem; 
-            font-weight: 500; 
-            font-family: 'Exo 2', sans-serif;
-            margin-bottom: 1.5rem; 
-            color: #FFFFFF;
-            text-shadow: 0 0 6px rgba(0, 245, 160, 0.3);
-            transition: all 0.3s ease;
-        }
-        .process-step:hover h4 { 
-            color: var(--primary-color);
-            text-shadow: var(--neon-glow);
-        }
-        .process-step p {
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 400;
-        }
-        /* Contact */
-        .contact {
-            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.7) 100%);
-            backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 5rem;
-            text-align: center;
-            margin-top: 6rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative; overflow: hidden;
-        }
-        .contact::before {
-            content: '';
-            position: absolute; top: -100%; left: -100%; width: 300%; height: 300%;
-            background: radial-gradient(circle, rgba(0, 245, 160, 0.1) 0%, transparent 70%);
-            animation: contact-pulse 10s ease-in-out infinite;
-        }
-        @keyframes contact-pulse {
-            0%,100%{transform:scale(1) rotate(0deg); opacity:0.3;}
-            50%{transform:scale(1.1) rotate(180deg); opacity:0.6;}
-        }
-        .contact h3 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            font-family: 'Exo 2', sans-serif;
-            margin-bottom: 1.5rem;
-            color: #FFFFFF;
-            text-shadow: var(--neon-glow);
-            position: relative; z-index:2;
-        }
-        .contact p {
-            color: #FFFFFF;
-            text-shadow: 0 0 6px rgba(0, 245, 160, 0.3);
-            margin-bottom: 3rem;
-            font-size: 1.2rem;
-            font-family: 'Exo 2', sans-serif;
-            font-weight: 400;
-            position: relative; z-index:2;
-            max-width: 600px; margin-left:auto; margin-right:auto;
-        }
-        /* Scroll/Fade Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Responsive extra */
-        @media (max-width: 768px) {
-            .section { padding: 4rem 1rem;}
-            .services-grid, .cases-grid { grid-template-columns:1fr; gap:2rem;}
-            .contact { padding:3rem 2rem; margin-top:4rem;}
-            .process-steps::before { display: none; }
-            .hero-content { margin-left: 5%; max-width: 90%; }
-        }
+        /* Elimina TODA la sección .cursor y .cursor-follower de tu CSS */
+        /* ...Resto del CSS continúa igual... */
     </style>
 </head>
 <body>
@@ -633,11 +24,10 @@
     <div class="loading-overlay" id="loading">
         <div class="loader"></div>
     </div>
-    <!-- Cursor personalizado -->
-    <div class="cursor" id="cursor"></div>
-    <div class="cursor-follower" id="cursor-follower"></div>
+
     <!-- Partículas flotantes -->
     <div class="particles" id="particles"></div>
+
     <!-- Navegación -->
     <nav id="navbar">
         <div class="nav-container">
@@ -653,6 +43,7 @@
             </ul>
         </div>
     </nav>
+
     <!-- HERO -->
     <section class="hero">
         <!-- Video de fondo -->
@@ -660,9 +51,149 @@
             <source src="./videos/Fondo-Hero-section.mp4" type="video/mp4">
             Tu navegador no soporta videos HTML5.
         </video>
-        <!-- Overlay para oscurecer el video -->
         <div class="hero-overlay"></div>
         <div class="ai-circuit-bg"></div>
         <div class="hero-content">
             <h1>Automatiza y crece.<br>Factura más, trabaja menos.</h1>
             <p>Convierte tus procesos en ganancias con automatizaciones inteligentes que trabajan 24/7 por ti.</p>
+            <a href="#contacto" class="cta-button">
+                ¡Agenda tu demo!
+                <span class="icon">🚀</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Sección de Servicios -->
+    <section id="servicios" class="section fade-in">
+        <h2>Servicios</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🤖</div>
+                <h3>Automatización de Procesos</h3>
+                <p>Optimiza y automatiza tus flujos de trabajo con soluciones inteligentes y personalizadas.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💬</div>
+                <h3>Chatbots y Soporte 24/7</h3>
+                <p>Asistentes virtuales que atienden y resuelven las dudas de tus clientes a cualquier hora.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📈</div>
+                <h3>Integración de IA en Negocios</h3>
+                <p>Lleva tu negocio al siguiente nivel con inteligencia artificial especializada en ventas y atención.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Casos de Uso -->
+    <section id="casos" class="section fade-in">
+        <h2>Casos de Uso</h2>
+        <div class="cases-grid">
+            <div class="case-card">
+                <div class="case-icon">🛒</div>
+                <h4>E-commerce</h4>
+                <p>Automatización de órdenes, seguimiento de envíos y atención instantánea al cliente.</p>
+            </div>
+            <div class="case-card">
+                <div class="case-icon">🏥</div>
+                <h4>Salud</h4>
+                <p>Recordatorio de citas y bots para responder preguntas frecuentes de pacientes.</p>
+            </div>
+            <div class="case-card">
+                <div class="case-icon">🏢</div>
+                <h4>Empresas</h4>
+                <p>Asistentes internos automatizados para soporte y gestión documental.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Proceso -->
+    <section id="proceso" class="section fade-in">
+        <h2>¿Cómo trabajamos?</h2>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h4>Diagnóstico</h4>
+                <p>Analizamos tus procesos y necesidades.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h4>Propuesta</h4>
+                <p>Diseñamos una solución a la medida para tu negocio.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h4>Implementación</h4>
+                <p>Desplegamos y personalizamos la automatización.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h4>Soporte</h4>
+                <p>Monitoreo y mejora continua para obtener los mejores resultados.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Contacto -->
+    <section id="contacto" class="section fade-in">
+        <div class="contact">
+            <h3>¿Listo para automatizar tu negocio?</h3>
+            <p>Escríbenos y lleva tu empresa al siguiente nivel con la ayuda de Caelon AI.</p>
+            <form>
+                <input type="text" name="nombre" placeholder="Tu nombre" required style="padding:1rem; border-radius:10px; border:none; margin-bottom:1rem; width:80%;max-width:300px;"><br>
+                <input type="email" name="email" placeholder="Tu correo" required style="padding:1rem; border-radius:10px; border:none; margin-bottom:1rem;width:80%;max-width:300px;"><br>
+                <textarea name="mensaje" placeholder="¿En qué podemos ayudarte?" required style="padding:1rem; border-radius:10px; border:none; margin-bottom:1rem;width:80%;max-width:300px;height:100px;"></textarea><br>
+                <button type="submit" class="cta-button">Enviar</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="text-align:center;padding:2rem 0;color:#a3a3a3;">
+        © 2025 Caelon AI - Todos los derechos reservados.
+    </footer>
+
+    <script>
+    // Elimina scripts relacionados con el cursor personalizado
+    document.addEventListener('DOMContentLoaded', function() {
+        // Loader simple
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('hidden');
+        }, 900);
+
+        // Navbar fondo dinámico al hacer scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 20) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+        });
+
+        // Animación fade-in al hacer scroll
+        const faders = document.querySelectorAll('.fade-in');
+        const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -30px 0px"};
+        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            });
+        }, appearOptions);
+        faders.forEach(fader => { appearOnScroll.observe(fader); });
+
+        // Partículas flotantes
+        function spawnParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 32; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random()*100 + '%';
+                p.style.top = Math.random()*100 + 'vh';
+                p.style.animationDuration = (17+Math.random()*8) + 's';
+                container.appendChild(p);
+            }
+        }
+        spawnParticles();
+    });
+    </script>
+</body>
+</html>
