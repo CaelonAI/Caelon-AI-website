@@ -99,13 +99,15 @@
       position: fixed;
       top: 0;
       width: 100%;
-      padding: 1rem 2rem;
+      padding: 1rem 1rem;
       background: rgba(10, 10, 10, 0.1);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       z-index: 1000;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
     }
     nav.scrolled {
       background: rgba(10, 10, 10, 0.95);
@@ -113,11 +115,21 @@
       transform: translateY(0);
     }
     .nav-container {
+      width: 100%;
+      max-width: 1400px;
+      padding: 0 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1400px;
-      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem 1rem;
+      }
+      .nav-container {
+        padding: 0 1rem;
+        flex-direction: column;
+      }
     }
     .logo {
       display: flex;
@@ -129,7 +141,6 @@
       color: var(--text-primary);
       text-shadow: var(--neon-glow);
     }
-    /* Tamaño aumentado del logo */
     .logo-image {
       width: 90px;
       height: 90px;
@@ -583,6 +594,25 @@
           }
         });
       }
+
+      // Scroll suave para enlaces con hash en la navegación
+      const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElem = document.getElementById(targetId);
+          if (!targetElem) return;
+
+          const offset = 70; // Altura navbar fija para evitar que tape contenido
+          const targetPosition = targetElem.getBoundingClientRect().top + window.pageYOffset - offset;
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        });
+      });
     });
 
     function handleSubmit(e) {
