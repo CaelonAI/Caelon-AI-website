@@ -95,6 +95,7 @@
         opacity: 0;
       }
     }
+    /* Ajuste barra navegación centrada y con padding reducido */
     nav {
       position: fixed;
       top: 0;
@@ -141,6 +142,7 @@
       color: var(--text-primary);
       text-shadow: var(--neon-glow);
     }
+    /* Logo más grande acorde a tipografía */
     .logo-image {
       width: 90px;
       height: 90px;
@@ -304,19 +306,20 @@
       box-shadow: 0 7px 40px rgba(0, 245, 160, 0.17), 0 0 32px 0px var(--primary-color);
       z-index: 10;
     }
-    .service-icon,
-    .step-number {
-      font-size: 3.5rem;
+    /* Los iconos reemplazan los emojis, tamaño fijo y centrados */
+    .service-icon {
       margin-bottom: 1.3rem;
+      display: inline-block;
       filter: drop-shadow(0 0 12px #00f5a077);
       transition: filter 0.24s, transform 0.24s;
-      display: inline-block;
+      width: 70px;
+      height: 70px;
     }
-    .service-card:hover .service-icon,
-    .process-step:hover .step-number {
+    .service-card:hover .service-icon {
       filter: drop-shadow(0 0 28px #00a0a0cc);
       transform: scale(1.13) rotate(3deg);
     }
+
     .step-number {
       background: var(--accent-gradient);
       color: #121212;
@@ -400,9 +403,9 @@
       }
       .service-icon,
       .step-number {
-        font-size: 2.2rem;
         width: 46px;
         height: 46px;
+        font-size: 2.2rem;
       }
       form .form-group {
         flex-direction: column;
@@ -450,22 +453,22 @@
       </a>
     </div>
   </section>
-  <!-- Servicios (título modificado) -->
+  <!-- Descubre cómo lo hacemos (antes Servicios) -->
   <section id="servicios" class="section">
     <h2>Descubre cómo lo hacemos</h2>
     <div class="services-grid">
       <div class="service-card">
-        <div class="service-icon">🤖</div>
+        <img src="./ya/chip-de-ia.png" alt="Automatización de Procesos" class="service-icon" />
         <h3>Automatización de Procesos</h3>
         <p>Optimiza y automatiza tus flujos de trabajo con soluciones inteligentes y personalizadas.</p>
       </div>
       <div class="service-card">
-        <div class="service-icon">💬</div>
+        <img src="./ya/charla.png" alt="Chatbots y Soporte 24/7" class="service-icon" />
         <h3>Chatbots y Soporte 24/7</h3>
         <p>Asistentes virtuales que atienden y resuelven las dudas de tus clientes a cualquier hora.</p>
       </div>
       <div class="service-card">
-        <div class="service-icon">📈</div>
+        <img src="./ya/grafico-de-negocios.png" alt="Integración de IA en Negocios" class="service-icon" />
         <h3>Integración de IA en Negocios</h3>
         <p>Lleva tu negocio al siguiente nivel con inteligencia artificial especializada en ventas y atención.</p>
       </div>
