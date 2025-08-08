@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Caelon AI - Automatiza y crece</title>
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;900&display=swap" rel="stylesheet" />
   <style>
     :root {
       --primary-color: #00F5A0;
@@ -17,7 +17,11 @@
       --glow-color: rgba(0, 245, 160, 0.4);
       --neon-glow: 0 0 12px #00F5A0;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Exo 2', sans-serif;
       background: var(--dark-bg);
@@ -26,110 +30,184 @@
       overflow-x: hidden;
     }
     .loading-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: var(--dark-bg);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       z-index: 10000;
       opacity: 1;
       transition: opacity 0.5s ease;
     }
     .loading-overlay.hidden {
-      opacity: 0; pointer-events: none;
+      opacity: 0;
+      pointer-events: none;
     }
     .loader {
-      width: 60px; height: 60px;
+      width: 60px;
+      height: 60px;
       border: 3px solid rgba(0, 245, 160, 0.1);
       border-top: 3px solid var(--primary-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
     .particles {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 1;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
     }
     .particle {
-      position: absolute; width: 4px; height: 4px;
-      background: var(--primary-color); border-radius: 50%;
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--primary-color);
+      border-radius: 50%;
       opacity: 0.25;
       animation: float-particles 22s infinite linear;
     }
     @keyframes float-particles {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0;}
-      10% { opacity: 0.3;}
-      90% { opacity: 0.3;}
-      100% { transform: translateY(-100px) rotate(360deg); opacity: 0;}
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
     }
     nav {
-      position: fixed; top: 0; width: 100%;
+      position: fixed;
+      top: 0;
+      width: 100%;
       padding: 1rem 2rem;
       background: rgba(10, 10, 10, 0.1);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       z-index: 1000;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
       transition: all 0.3s ease;
     }
     nav.scrolled {
-      background: rgba(10,10,10,0.95);
-      box-shadow: 0 8px 32px rgba(0,245,160,0.1);
+      background: rgba(10, 10, 10, 0.95);
+      box-shadow: 0 8px 32px rgba(0, 245, 160, 0.1);
       transform: translateY(0);
     }
     .nav-container {
-      display: flex; justify-content: space-between; align-items: center;
-      max-width: 1400px; margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
     }
     .logo {
-      display: flex; align-items: center; gap: 0.75rem;
-      font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 1.5rem;
-      color: var(--text-primary); text-shadow: var(--neon-glow);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      text-shadow: var(--neon-glow);
     }
     .logo-image {
-      width: 62px; height: 62px; object-fit: contain;
-      filter: drop-shadow(0 0 8px rgba(0,245,160,0.5));
+      width: 62px;
+      height: 62px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5));
       animation: logo-pulse 4s ease-in-out infinite;
     }
     @keyframes logo-pulse {
-      0%,100% {filter:drop-shadow(0 0 8px rgba(0,245,160,0.5)) scale(1);}
-      50% {filter:drop-shadow(0 0 15px rgba(0,245,160,0.8)) scale(1.05);}
+      0%,
+      100% {
+        filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5)) scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 0 15px rgba(0, 245, 160, 0.8)) scale(1.05);
+      }
     }
     .nav-links {
-      display: flex; gap: 2rem; list-style: none;
+      display: flex;
+      gap: 2rem;
+      list-style: none;
     }
     .nav-links a {
-      color: var(--text-secondary); text-decoration: none;
-      font-weight: 500; padding: 0.5rem 1rem; border-radius: 25px;
-      font-family: 'Exo 2', sans-serif; transition: all 0.3s;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-family: 'Exo 2', sans-serif;
+      transition: all 0.3s;
     }
     .nav-links a:hover {
       color: var(--primary-color);
-      background: rgba(0,245,160,0.1);
+      background: rgba(0, 245, 160, 0.1);
       transform: translateY(-2px);
-      text-shadow: 0 0 8px rgba(0,245,160,0.6);
+      text-shadow: 0 0 8px rgba(0, 245, 160, 0.6);
     }
     @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav-container { flex-direction: column; }
-      .section { padding: 4rem 1rem;}
+      .nav-links {
+        display: none;
+      }
+      .nav-container {
+        flex-direction: column;
+      }
+      .section {
+        padding: 4rem 1rem;
+      }
     }
     .hero {
-      min-height: 100vh; display: flex;
-      align-items: center; justify-content: flex-start;
-      position: relative; padding: 0 2rem;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      padding: 0 2rem;
       overflow: hidden;
     }
     .hero-video {
-      position: absolute; top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      object-fit: cover; z-index: -2; pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      pointer-events: none;
     }
     .hero-overlay {
-      position: absolute; top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(10, 10, 10, 0.65); z-index: -1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.65);
+      z-index: -1;
     }
     .hero-content {
-      max-width: 700px; margin-left: 10%; z-index: 2; position: relative;
+      max-width: 700px;
+      margin-left: 10%;
+      z-index: 2;
+      position: relative;
     }
     .hero h1 {
       font-size: clamp(2.5rem, 6vw, 5rem);
@@ -169,7 +247,7 @@
     }
     .cta-button:hover {
       transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 0 30px rgba(0, 245, 160, 0.6), 0 20px 50px rgba(0,245,160,0.3);
+      box-shadow: 0 0 30px rgba(0, 245, 160, 0.6), 0 20px 50px rgba(0, 245, 160, 0.3);
     }
     .section {
       padding: 8rem 2rem;
@@ -187,57 +265,76 @@
       text-shadow: var(--neon-glow);
       position: relative;
     }
-    .services-grid, .cases-grid, .process-steps {
+    .services-grid,
+    .cases-grid,
+    .process-steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
       gap: 3rem;
       margin-top: 5rem;
     }
-    .service-card, .case-card, .process-step {
+    .service-card,
+    .case-card,
+    .process-step {
       background: var(--dark-card);
       border-radius: 22px;
       padding: 3rem 2rem;
       text-align: center;
-      box-shadow: 0 2px 30px rgba(0,245,160,0.06);
-      transition: transform 0.18s cubic-bezier(.5,1.45,.49,.99), box-shadow 0.18s;
+      box-shadow: 0 2px 30px rgba(0, 245, 160, 0.06);
+      transition: transform 0.18s cubic-bezier(0.5, 1.45, 0.49, 0.99), box-shadow 0.18s;
       position: relative;
       overflow: hidden;
       cursor: pointer;
     }
-    .service-card:hover, .case-card:hover, .process-step:hover {
+    .service-card:hover,
+    .case-card:hover,
+    .process-step:hover {
       transform: translateY(-10px) scale(1.06) rotate(-2deg);
-      box-shadow: 0 7px 40px rgba(0,245,160,0.17), 0 0 32px 0px var(--primary-color);
+      box-shadow: 0 7px 40px rgba(0, 245, 160, 0.17), 0 0 32px 0px var(--primary-color);
       z-index: 10;
     }
-    .service-icon, .case-icon, .step-number {
+    .service-icon,
+    .case-icon,
+    .step-number {
       font-size: 3.5rem;
       margin-bottom: 1.3rem;
-      filter: drop-shadow(0 0 12px #00F5A077);
+      filter: drop-shadow(0 0 12px #00f5a077);
       transition: filter 0.24s, transform 0.24s;
       display: inline-block;
     }
     .service-card:hover .service-icon,
     .case-card:hover .case-icon,
     .process-step:hover .step-number {
-      filter: drop-shadow(0 0 28px #00F5A0cc);
+      filter: drop-shadow(0 0 28px #00f5a0cc);
       transform: scale(1.13) rotate(3deg);
     }
     .step-number {
       background: var(--accent-gradient);
       color: #121212;
       border-radius: 50%;
-      width: 62px; height: 62px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 2.2rem; margin: 0 auto 1.2rem;
-      box-shadow: 0 0 20px rgb(0,245,160,0.16);
+      width: 62px;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 2.2rem;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 0 20px rgb(0, 245, 160, 0.16);
       border: 3px solid #1f1f1f;
     }
-    .process-step { min-height: 260px; }
+    .process-step {
+      min-height: 260px;
+    }
     .contact {
-      background: linear-gradient(135deg, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.7) 100%);
-      border-radius: 30px; padding:5rem; text-align: center;
-      margin-top:6rem; border:1px solid rgba(255,255,255,0.1);
-      position:relative; overflow:hidden;
+      background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.7) 100%);
+      border-radius: 30px;
+      padding: 5rem;
+      text-align: center;
+      margin-top: 6rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
     }
     form .form-group {
       display: flex;
@@ -246,36 +343,66 @@
       flex-wrap: wrap;
       margin-bottom: 1rem;
     }
-    form input, form select {
-      padding:1rem;
-      border-radius:10px;
-      border:none;
+    form input,
+    form select {
+      padding: 1rem;
+      border-radius: 10px;
+      border: none;
       background: #181818;
       color: #fff;
       margin-bottom: 0;
-      width:100%;
-      max-width:300px;
+      width: 100%;
+      max-width: 300px;
       font-family: 'Exo 2', sans-serif;
-      font-size:1rem;
-      box-shadow: 0 1px 6px rgba(0,245,160,0.04);
+      font-size: 1rem;
+      box-shadow: 0 1px 6px rgba(0, 245, 160, 0.04);
       transition: border 0.2s;
     }
-    form input:focus, form select:focus {
+    form input:focus,
+    form select:focus {
       outline: none;
       border: 2px solid var(--primary-color);
     }
     @media (max-width: 768px) {
-      .section { padding: 4rem 1rem;}
-      .services-grid, .cases-grid, .process-steps { grid-template-columns:1fr; gap:2rem;}
-      .contact { padding:3rem 2rem; margin-top:4rem;}
-      .hero-content { margin-left: 0; max-width: 100%; }
-      .hero-video, .hero-overlay { width: 100vw; height: 100vh;}
-      .service-card, .case-card, .process-step {padding: 2.5rem 1.2rem;}
-      .service-icon, .case-icon, .step-number { font-size: 2.2rem; width: 46px; height: 46px;}
-      form .form-group { flex-direction: column; }
+      .section {
+        padding: 4rem 1rem;
+      }
+      .services-grid,
+      .cases-grid,
+      .process-steps {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .contact {
+        padding: 3rem 2rem;
+        margin-top: 4rem;
+      }
+      .hero-content {
+        margin-left: 0;
+        max-width: 100%;
+      }
+      .hero-video,
+      .hero-overlay {
+        width: 100vw;
+        height: 100vh;
+      }
+      .service-card,
+      .case-card,
+      .process-step {
+        padding: 2.5rem 1.2rem;
+      }
+      .service-icon,
+      .case-icon,
+      .step-number {
+        font-size: 2.2rem;
+        width: 46px;
+        height: 46px;
+      }
+      form .form-group {
+        flex-direction: column;
+      }
     }
   </style>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
   <!-- Loader -->
@@ -288,12 +415,11 @@
   <nav id="navbar">
     <div class="nav-container">
       <div class="logo">
-        <img src="./images/Logo.png" alt="Caelon AI Logo" class="logo-image">
+        <img src="./images/Logo.png" alt="Caelon AI Logo" class="logo-image" />
         <span>Caelon AI</span>
       </div>
       <ul class="nav-links">
         <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#casos">Casos de Uso</a></li>
         <li><a href="#proceso">Proceso</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
@@ -302,12 +428,15 @@
   <!-- HERO SECTION -->
   <section class="hero">
     <video class="hero-video" autoplay muted loop playsinline>
-      <source src="./images/Fondo-Hero-section.mp4" type="video/mp4">
+      <source src="./images/Fondo-Hero-section.mp4" type="video/mp4" />
       Tu navegador no soporta videos HTML5.
     </video>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>Automatiza y crece.<br>Factura más, trabaja menos.</h1>
+      <h1>
+        Automatiza y crece.<br />
+        Factura más, trabaja menos.
+      </h1>
       <p>Convierte tus procesos en ganancias con automatizaciones inteligentes que trabajan 24/7 por ti.</p>
       <a href="#contacto" class="cta-button">
         ¡Agenda tu demo!
@@ -315,9 +444,9 @@
       </a>
     </div>
   </section>
-  <!-- Servicios -->
+  <!-- Servicios (ahora con título modificado) -->
   <section id="servicios" class="section">
-    <h2>Servicios</h2>
+    <h2>Descubre cómo lo hacemos</h2>
     <div class="services-grid">
       <div class="service-card">
         <div class="service-icon">🤖</div>
@@ -333,27 +462,6 @@
         <div class="service-icon">📈</div>
         <h3>Integración de IA en Negocios</h3>
         <p>Lleva tu negocio al siguiente nivel con inteligencia artificial especializada en ventas y atención.</p>
-      </div>
-    </div>
-  </section>
-  <!-- Casos de Uso -->
-  <section id="casos" class="section">
-    <h2>Casos de Uso</h2>
-    <div class="cases-grid">
-      <div class="case-card">
-        <div class="case-icon">🛒</div>
-        <h4>E-commerce</h4>
-        <p>Automatización de órdenes, seguimiento de envíos y atención instantánea al cliente.</p>
-      </div>
-      <div class="case-card">
-        <div class="case-icon">🏥</div>
-        <h4>Salud</h4>
-        <p>Recordatorio de citas y bots para responder preguntas frecuentes de pacientes.</p>
-      </div>
-      <div class="case-card">
-        <div class="case-icon">🏢</div>
-        <h4>Empresas</h4>
-        <p>Asistentes internos automatizados para soporte y gestión documental.</p>
       </div>
     </div>
   </section>
@@ -388,45 +496,54 @@
     <div class="contact">
       <h3>¿Listo para automatizar tu negocio?</h3>
       <p>Escríbenos y lleva tu empresa al siguiente nivel con la ayuda de Caelon AI.</p>
-      <form action="https://script.google.com/macros/s/AKfycby-GAG76vQIkPFayWtDNfzNlAadKxdIpWrY1_ngaicj_d5bOvcBaku12uzYR3fpaCle/exec" method="POST" id="caelonForm" onsubmit="handleSubmit(event)">
+      <form
+        action="https://script.google.com/macros/s/AKfycby-GAG76vQIkPFayWtDNfzNlAadKxdIpWrY1_ngaicj_d5bOvcBaku12uzYR3fpaCle/exec"
+        method="POST"
+        id="caelonForm"
+        onsubmit="handleSubmit(event)"
+      >
         <div class="form-group">
-          <input type="text" name="nombre" placeholder="Tu nombre" required>
-          <input type="text" name="apellido" placeholder="Apellido" required>
+          <input type="text" name="nombre" placeholder="Tu nombre" required />
+          <input type="text" name="apellido" placeholder="Apellido" required />
         </div>
         <div class="form-group">
-          <input type="email" name="correo" placeholder="Correo electrónico" required>
-          <input type="text" name="empresa" placeholder="Empresa / Agencia" required>
+          <input type="email" name="correo" placeholder="Correo electrónico" required />
+          <input type="text" name="empresa" placeholder="Empresa / Agencia" required />
         </div>
-        <div class="form-group">
+        <div class="form-group" style="flex-direction: column; align-items: center;">
           <select name="mensaje" required>
-            <option value="">¿Cómo te podemos ayudar?</option>
+            <option value="" disabled selected hidden>¿Cómo te podemos ayudar?</option>
             <option value="Automatización de procesos">Automatización de procesos</option>
             <option value="Integraciones con APIs">Integraciones con APIs</option>
             <option value="Chatbots con IA">Chatbots con IA</option>
             <option value="Optimización de workflows">Optimización de workflows</option>
             <option value="Otro">Otro</option>
           </select>
-        </div>
-        <!-- CAPTCHA -->
-        <div class="form-group" style="justify-content: center;">
-          <div class="g-recaptcha" data-sitekey="TU_SITE_KEY_RECAPTCHA"></div>
+          <input
+            type="text"
+            name="mensaje_otro"
+            id="mensaje_otro"
+            placeholder="Por favor, cuéntanos"
+            style="display:none; margin-top:10px; max-width: 300px; width: 100%;"
+            maxlength="200"
+          />
         </div>
         <button type="submit" class="cta-button">Enviar</button>
         <p id="form-response" style="margin-top: 10px;"></p>
       </form>
     </div>
   </section>
-  <footer style="text-align:center;padding:2rem 0;color:#a3a3a3;">
+  <footer style="text-align:center; padding: 2rem 0; color: #a3a3a3;">
     © 2025 Caelon AI - Todos los derechos reservados.
   </footer>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Loader simple
       setTimeout(() => {
         document.getElementById('loading').classList.add('hidden');
       }, 900);
       // Navbar fondo dinámico al hacer scroll
-      window.addEventListener('scroll', function() {
+      window.addEventListener('scroll', function () {
         const navbar = document.getElementById('navbar');
         if (window.scrollY > 20) navbar.classList.add('scrolled');
         else navbar.classList.remove('scrolled');
@@ -437,43 +554,58 @@
         for (let i = 0; i < 32; i++) {
           const p = document.createElement('div');
           p.className = 'particle';
-          p.style.left = Math.random()*100 + '%';
-          p.style.top = Math.random()*100 + 'vh';
-          p.style.animationDuration = (17+Math.random()*8) + 's';
+          p.style.left = Math.random() * 100 + '%';
+          p.style.top = Math.random() * 100 + 'vh';
+          p.style.animationDuration = 17 + Math.random() * 8 + 's';
           container.appendChild(p);
         }
       }
       spawnParticles();
+
+      // Mostrar el campo "mensaje_otro" solo si seleccionan "Otro"
+      var select = document.querySelector('select[name="mensaje"]');
+      var inputOtro = document.getElementById('mensaje_otro');
+      if (select && inputOtro) {
+        select.addEventListener('change', function () {
+          if (this.value === 'Otro') {
+            inputOtro.style.display = 'block';
+            inputOtro.required = true;
+          } else {
+            inputOtro.style.display = 'none';
+            inputOtro.required = false;
+            inputOtro.value = '';
+          }
+        });
+      }
     });
 
     function handleSubmit(e) {
       e.preventDefault();
-      const form = document.getElementById("caelonForm");
-      const response = document.getElementById("form-response");
-      // Validar reCAPTCHA antes de enviar
-      const recaptcha = grecaptcha.getResponse();
-      if (!recaptcha) {
-        response.textContent = "Por favor verifica el CAPTCHA antes de enviar.";
-        response.style.color = "orange";
-        return;
-      }
+      const form = document.getElementById('caelonForm');
+      const response = document.getElementById('form-response');
+
       const formData = new FormData(form);
-      formData.append('g-recaptcha-response', recaptcha);
+
       fetch(form.action, {
-        method: "POST",
-        body: formData
+        method: 'POST',
+        body: formData,
       })
-      .then(res => res.json())
-      .then(() => {
-        response.textContent = "✅ ¡Formulario enviado con éxito!";
-        response.style.color = "limegreen";
-        form.reset();
-        grecaptcha.reset();
-      })
-      .catch(() => {
-        response.textContent = "❌ Hubo un error al enviar el formulario.";
-        response.style.color = "red";
-      });
+        .then((res) => res.json())
+        .then(() => {
+          response.textContent = '✅ ¡Formulario enviado con éxito!';
+          response.style.color = 'limegreen';
+          form.reset();
+          // Ocultar input "otro" después del reset
+          var inputOtro = document.getElementById('mensaje_otro');
+          if (inputOtro) {
+            inputOtro.style.display = 'none';
+            inputOtro.required = false;
+          }
+        })
+        .catch(() => {
+          response.textContent = '❌ Hubo un error al enviar el formulario.';
+          response.style.color = 'red';
+        });
     }
   </script>
 </body>
