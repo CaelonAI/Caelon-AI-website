@@ -28,7 +28,7 @@
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
-      scroll-behavior: smooth; /* Scroll suave para toda la página */
+      scroll-behavior: smooth;
     }
     .loading-overlay {
       position: fixed;
@@ -95,7 +95,7 @@
         opacity: 0;
       }
     }
-    /* Ajuste barra navegación centrada y con padding reducido */
+    /* Barra de navegación centrada y compacta */
     nav {
       position: fixed;
       top: 0;
@@ -142,7 +142,7 @@
       color: var(--text-primary);
       text-shadow: var(--neon-glow);
     }
-    /* Logo más grande acorde a tipografía */
+    /* Logo más grande acorde a la tipografía */
     .logo-image {
       width: 90px;
       height: 90px;
@@ -151,8 +151,7 @@
       animation: logo-pulse 4s ease-in-out infinite;
     }
     @keyframes logo-pulse {
-      0%,
-      100% {
+      0%, 100% {
         filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5)) scale(1);
       }
       50% {
@@ -306,14 +305,15 @@
       box-shadow: 0 7px 40px rgba(0, 245, 160, 0.17), 0 0 32px 0px var(--primary-color);
       z-index: 10;
     }
-    /* Los iconos reemplazan los emojis, tamaño fijo y centrados */
+    /* Iconos como imagenes con tamaño fijo y efecto hover */
     .service-icon {
       margin-bottom: 1.3rem;
       display: inline-block;
-      filter: drop-shadow(0 0 12px #00f5a077);
-      transition: filter 0.24s, transform 0.24s;
       width: 70px;
       height: 70px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 12px #00f5a077);
+      transition: filter 0.24s, transform 0.24s;
     }
     .service-card:hover .service-icon {
       filter: drop-shadow(0 0 28px #00a0a0cc);
@@ -418,8 +418,10 @@
   <div class="loading-overlay" id="loading">
     <div class="loader"></div>
   </div>
+
   <!-- Partículas flotantes -->
   <div class="particles" id="particles"></div>
+
   <!-- Navegación -->
   <nav id="navbar">
     <div class="nav-container">
@@ -434,6 +436,7 @@
       </ul>
     </div>
   </nav>
+
   <!-- HERO SECTION -->
   <section class="hero">
     <video class="hero-video" autoplay muted loop playsinline>
@@ -442,38 +445,36 @@
     </video>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>
-        Automatiza y crece.<br />
-        Factura más, trabaja menos.
-      </h1>
+      <h1>Automatiza y crece.<br />Factura más, trabaja menos.</h1>
       <p>Convierte tus procesos en ganancias con automatizaciones inteligentes que trabajan 24/7 por ti.</p>
       <a href="#contacto" class="cta-button">
-        ¡Agenda tu demo!
-        <span class="icon">🚀</span>
+        ¡Agenda tu demo! <span class="icon">🚀</span>
       </a>
     </div>
   </section>
+
   <!-- Descubre cómo lo hacemos (antes Servicios) -->
   <section id="servicios" class="section">
     <h2>Descubre cómo lo hacemos</h2>
     <div class="services-grid">
       <div class="service-card">
-        <img src="./ya/chip-de-ia.png" alt="Automatización de Procesos" class="service-icon" />
+        <img src="./images/chip-de-ia.png" alt="Automatización de Procesos" class="service-icon" />
         <h3>Automatización de Procesos</h3>
         <p>Optimiza y automatiza tus flujos de trabajo con soluciones inteligentes y personalizadas.</p>
       </div>
       <div class="service-card">
-        <img src="./ya/charla.png" alt="Chatbots y Soporte 24/7" class="service-icon" />
+        <img src="./images/charla.png" alt="Chatbots y Soporte 24/7" class="service-icon" />
         <h3>Chatbots y Soporte 24/7</h3>
         <p>Asistentes virtuales que atienden y resuelven las dudas de tus clientes a cualquier hora.</p>
       </div>
       <div class="service-card">
-        <img src="./ya/grafico-de-negocios.png" alt="Integración de IA en Negocios" class="service-icon" />
+        <img src="./images/grafico-de-negocios.png" alt="Integración de IA en Negocios" class="service-icon" />
         <h3>Integración de IA en Negocios</h3>
         <p>Lleva tu negocio al siguiente nivel con inteligencia artificial especializada en ventas y atención.</p>
       </div>
     </div>
   </section>
+
   <!-- Proceso -->
   <section id="proceso" class="section">
     <h2>¿Cómo trabajamos?</h2>
@@ -500,17 +501,13 @@
       </div>
     </div>
   </section>
+
   <!-- Contacto -->
   <section id="contacto" class="section">
     <div class="contact">
       <h3>¿Listo para automatizar tu negocio?</h3>
       <p>Escríbenos y lleva tu empresa al siguiente nivel con la ayuda de Caelon AI.</p>
-      <form
-        action="https://script.google.com/macros/s/AKfycby-GAG76vQIkPFayWtDNfzNlAadKxdIpWrY1_ngaicj_d5bOvcBaku12uzYR3fpaCle/exec"
-        method="POST"
-        id="caelonForm"
-        onsubmit="handleSubmit(event)"
-      >
+      <form action="https://script.google.com/macros/s/AKfycby-GAG76vQIkPFayWtDNfzNlAadKxdIpWrY1_ngaicj_d5bOvcBaku12uzYR3fpaCle/exec" method="POST" id="caelonForm" onsubmit="handleSubmit(event)">
         <div class="form-group">
           <input type="text" name="nombre" placeholder="Tu nombre" required />
           <input type="text" name="apellido" placeholder="Apellido" required />
@@ -553,21 +550,25 @@
       </form>
     </div>
   </section>
+
   <footer style="text-align:center; padding: 2rem 0; color: #a3a3a3;">
     © 2025 Caelon AI - Todos los derechos reservados.
   </footer>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Loader simple
       setTimeout(() => {
         document.getElementById('loading').classList.add('hidden');
       }, 900);
+
       // Navbar fondo dinámico al hacer scroll
       window.addEventListener('scroll', function () {
         const navbar = document.getElementById('navbar');
         if (window.scrollY > 20) navbar.classList.add('scrolled');
         else navbar.classList.remove('scrolled');
       });
+
       // Partículas flotantes
       function spawnParticles() {
         const container = document.getElementById('particles');
