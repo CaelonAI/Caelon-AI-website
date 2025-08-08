@@ -28,6 +28,7 @@
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
+      scroll-behavior: smooth; /* Scroll suave para toda la página */
     }
     .loading-overlay {
       position: fixed;
@@ -128,9 +129,10 @@
       color: var(--text-primary);
       text-shadow: var(--neon-glow);
     }
+    /* Tamaño aumentado del logo */
     .logo-image {
-      width: 62px;
-      height: 62px;
+      width: 90px;
+      height: 90px;
       object-fit: contain;
       filter: drop-shadow(0 0 8px rgba(0, 245, 160, 0.5));
       animation: logo-pulse 4s ease-in-out infinite;
@@ -157,6 +159,7 @@
       border-radius: 25px;
       font-family: 'Exo 2', sans-serif;
       transition: all 0.3s;
+      cursor: pointer;
     }
     .nav-links a:hover {
       color: var(--primary-color);
@@ -266,7 +269,6 @@
       position: relative;
     }
     .services-grid,
-    .cases-grid,
     .process-steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -274,7 +276,6 @@
       margin-top: 5rem;
     }
     .service-card,
-    .case-card,
     .process-step {
       background: var(--dark-card);
       border-radius: 22px;
@@ -287,14 +288,12 @@
       cursor: pointer;
     }
     .service-card:hover,
-    .case-card:hover,
     .process-step:hover {
       transform: translateY(-10px) scale(1.06) rotate(-2deg);
       box-shadow: 0 7px 40px rgba(0, 245, 160, 0.17), 0 0 32px 0px var(--primary-color);
       z-index: 10;
     }
     .service-icon,
-    .case-icon,
     .step-number {
       font-size: 3.5rem;
       margin-bottom: 1.3rem;
@@ -303,9 +302,8 @@
       display: inline-block;
     }
     .service-card:hover .service-icon,
-    .case-card:hover .case-icon,
     .process-step:hover .step-number {
-      filter: drop-shadow(0 0 28px #00f5a0cc);
+      filter: drop-shadow(0 0 28px #00a0a0cc);
       transform: scale(1.13) rotate(3deg);
     }
     .step-number {
@@ -368,7 +366,6 @@
         padding: 4rem 1rem;
       }
       .services-grid,
-      .cases-grid,
       .process-steps {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -387,12 +384,10 @@
         height: 100vh;
       }
       .service-card,
-      .case-card,
       .process-step {
         padding: 2.5rem 1.2rem;
       }
       .service-icon,
-      .case-icon,
       .step-number {
         font-size: 2.2rem;
         width: 46px;
@@ -419,7 +414,7 @@
         <span>Caelon AI</span>
       </div>
       <ul class="nav-links">
-        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#servicios">Descubre cómo lo hacemos</a></li>
         <li><a href="#proceso">Proceso</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
@@ -444,7 +439,7 @@
       </a>
     </div>
   </section>
-  <!-- Servicios (ahora con título modificado) -->
+  <!-- Servicios (título modificado) -->
   <section id="servicios" class="section">
     <h2>Descubre cómo lo hacemos</h2>
     <div class="services-grid">
@@ -512,12 +507,23 @@
         </div>
         <div class="form-group" style="flex-direction: column; align-items: center;">
           <select name="mensaje" required>
-            <option value="" disabled selected hidden>¿Cómo te podemos ayudar?</option>
-            <option value="Automatización de procesos">Automatización de procesos</option>
-            <option value="Integraciones con APIs">Integraciones con APIs</option>
-            <option value="Chatbots con IA">Chatbots con IA</option>
-            <option value="Optimización de workflows">Optimización de workflows</option>
-            <option value="Otro">Otro</option>
+            <option value="" disabled selected hidden>¿Qué te interesa automatizar?</option>
+            <option value="Crear o integrar un chatbot inteligente (WhatsApp, Web, Telegram, etc.)">
+              Crear o integrar un chatbot inteligente (WhatsApp, Web, Telegram, etc.)
+            </option>
+            <option value="Automatizar tareas repetitivas (emails, reportes, formularios…)">
+              Automatizar tareas repetitivas (emails, reportes, formularios…)
+            </option>
+            <option value="Integrar múltiples herramientas (CRM, Google Sheets, APIs…)">
+              Integrar múltiples herramientas (CRM, Google Sheets, APIs…)
+            </option>
+            <option value="Mejorar procesos internos (ventas, soporte, recursos humanos…)">
+              Mejorar procesos internos (ventas, soporte, recursos humanos…)
+            </option>
+            <option value="Necesito asesoría para automatizar procesos de mi empresa">
+              Necesito asesoría para automatizar procesos de mi empresa
+            </option>
+            <option value="Otro (especificar)">Otro (especificar)</option>
           </select>
           <input
             type="text"
@@ -562,12 +568,12 @@
       }
       spawnParticles();
 
-      // Mostrar el campo "mensaje_otro" solo si seleccionan "Otro"
+      // Mostrar el campo "mensaje_otro" solo si seleccionan "Otro (especificar)"
       var select = document.querySelector('select[name="mensaje"]');
       var inputOtro = document.getElementById('mensaje_otro');
       if (select && inputOtro) {
         select.addEventListener('change', function () {
-          if (this.value === 'Otro') {
+          if (this.value === 'Otro (especificar)') {
             inputOtro.style.display = 'block';
             inputOtro.required = true;
           } else {
