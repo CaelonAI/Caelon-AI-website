@@ -611,24 +611,74 @@
         });
       }
 
-      // Scroll suave para enlaces con hash en la navegación
-      const allHashLinks = document.querySelectorAll('a[href^="#"]'); // Cambiar selector
+      // Scroll suave para TODOS los enlaces con hash
+      const allHashLinks = document.querySelectorAll('a[href^="#"]');
       allHashLinks.forEach(link => {
-      link.addEventListener('click', function (e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href').substring(1);
-      const targetElem = document.getElementById(targetId);
-      if (!targetElem) return;
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href').substring(1);
+          const targetElem = document.getElementById(targetId);
+          if (!targetElem) return;
 
-      const offset = 70; // Altura navbar para evitar que tape contenido
-      const targetPosition = targetElem.getBoundingClientRect().top + window.pageYOffset - offset;
+          const offset = 70; // Altura navbar para evitar que tape contenido
+          const targetPosition = targetElem.getBoundingClientRect().top + window.pageYOffset - offset;
 
-      window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth'
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        });
+      });
     });
-  });
-});
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('caelonForm');
+      const response = document.getElementById('form-response');
+      const submitButton = document.querySelector('button[type="submit"]'); // Obtener el botón
+
+      // DESACTIVAR EL BOTÓN
+      submitButton.disabled = true;
+      submitButton.style.opacity = '0.6';
+      submitButton.style.cursor = 'not-allowed';
+      submitButton.innerHTML = 'Enviando...'; // Cambiar texto del botón
+
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then(() => {
+          response.textContent = '✅ ¡Formulario enviado con éxito!';
+          response.style.color = 'limegreen';
+          form.reset();
+          // Ocultar input "otro" después del reset
+          var inputOtro = document.getElementById('mensaje_otro');
+          if (inputOtro) {
+            inputOtro.style.display = 'none';
+            inputOtro.required = false;
+          }
+
+          // REACTIVAR EL BOTÓN CUANDO APAREZCA EL MENSAJE DE ÉXITO
+          submitButton.disabled = false;
+          submitButton.style.opacity = '1';
+          submitButton.style.cursor = 'pointer';
+          submitButton.innerHTML = 'Enviar'; // Restaurar texto original
+        })
+        .catch(() => {
+          response.textContent = '❌ Hubo un error al enviar el formulario.';
+          response.style.color = 'red';
+
+          // REACTIVAR EL BOTÓN TAMBIÉN EN CASO DE ERROR
+          submitButton.disabled = false;
+          submitButton.style.opacity = '1';
+          submitButton.style.cursor = 'pointer';
+          submitButton.innerHTML = 'Enviar'; // Restaurar texto original
+        });
+    }
+</script>
 
    function handleSubmit(e) {
   e.preventDefault();
