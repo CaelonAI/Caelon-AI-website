@@ -649,72 +649,268 @@
     }
   </script>
 
-<!-- CHATBOT n8n - Versión UMD definitiva -->
+<!-- CHATBOT MANUAL - Implementación directa -->
 <script>
-  console.log("🤖 Iniciando carga del chatbot de Caelon AI...");
+  console.log("🤖 Creando chatbot manual para Caelon AI...");
   
-  // Función para inicializar el chatbot
-  function initializeChatbot() {
-    console.log("🔍 Verificando objetos disponibles...");
-    console.log("window.n8nChat:", window.n8nChat);
-    console.log("window.N8nChat:", window.N8nChat);
-    console.log("window.Chat:", window.Chat);
+  class CaelonChatbot {
+    constructor() {
+      this.isOpen = false;
+      this.sessionId = this.generateSessionId();
+      this.webhookUrl = "https://n8n-n8n.a6mo3g.easypanel.host/webhook/c29801dd-6281-4e87-9c3f-7d6d00f5db5d/chat";
+      this.createChatbot();
+    }
     
-    // Probar diferentes nombres posibles
-    const chatLibrary = window.n8nChat || window.N8nChat || window.Chat;
+    generateSessionId() {
+      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    }
     
-    if (chatLibrary && typeof chatLibrary.init === 'function') {
-      console.log("✅ Librería encontrada, inicializando...");
+    createChatbot() {
+      // Crear el botón flotante
+      this.launcher = document.createElement('div');
+      this.launcher.innerHTML = `
+        <div id="caelon-chat-launcher" style="
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 60px;
+          height: 60px;
+          background: #4FA8F0;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(79, 168, 240, 0.3);
+          z-index: 9999;
+          transition: all 0.3s ease;
+          color: white;
+          font-size: 24px;
+        ">
+          💬
+        </div>
+      `;
+      
+      // Crear la ventana del chat
+      this.chatWindow = document.createElement('div');
+      this.chatWindow.innerHTML = `
+        <div id="caelon-chat-window" style="
+          position: fixed;
+          bottom: 90px;
+          right: 20px;
+          width: 350px;
+          height: 500px;
+          background: #1A2634;
+          border-radius: 15px;
+          box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+          z-index: 9999;
+          display: none;
+          flex-direction: column;
+          overflow: hidden;
+        ">
+          <!-- Header -->
+          <div style="
+            background: #4FA8F0;
+            padding: 15px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          ">
+            <span>Caelon AI Assistant</span>
+            <span id="caelon-chat-close" style="cursor: pointer; font-size: 20px;">×</span>
+          </div>
+          
+          <!-- Messages area -->
+          <div id="caelon-chat-messages" style="
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #1A2634;
+            color: white;
+          ">
+            <div style="
+              background: #4FA8F0;
+              color: white;
+              padding: 10px;
+              border-radius: 10px;
+              margin-bottom: 10px;
+              font-size: 14px;
+            ">
+              ¡Hola! Soy el asistente de Caelon AI. ¿En qué puedo ayudarte hoy?
+            </div>
+          </div>
+          
+          <!-- Input area -->
+          <div style="
+            padding: 15px;
+            border-top: 1px solid #333;
+            background: #1A2634;
+          ">
+            <div style="display: flex; gap: 10px;">
+              <input 
+                id="caelon-chat-input" 
+                type="text" 
+                placeholder="Escribe tu mensaje..."
+                style="
+                  flex: 1;
+                  padding: 10px;
+                  border: none;
+                  border-radius: 20px;
+                  background: #333;
+                  color: white;
+                  outline: none;
+                "
+              />
+              <button id="caelon-chat-send" style="
+                background: #4FA8F0;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                color: white;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              ">
+                ➤
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(this.launcher);
+      document.body.appendChild(this.chatWindow);
+      
+      this.bindEvents();
+      console.log("🎉 Chatbot manual creado exitosamente");
+    }
+    
+    bindEvents() {
+      const launcher = document.getElementById('caelon-chat-launcher');
+      const closeBtn = document.getElementById('caelon-chat-close');
+      const sendBtn = document.getElementById('caelon-chat-send');
+      const input = document.getElementById('caelon-chat-input');
+      const window = document.getElementById('caelon-chat-window');
+      
+      // Hover effects
+      launcher.addEventListener('mouseenter', () => {
+        launcher.style.background = '#6FC0FF';
+        launcher.style.transform = 'scale(1.1)';
+      });
+      
+      launcher.addEventListener('mouseleave', () => {
+        launcher.style.background = '#4FA8F0';
+        launcher.style.transform = 'scale(1)';
+      });
+      
+      // Toggle chat
+      launcher.addEventListener('click', () => this.toggleChat());
+      closeBtn.addEventListener('click', () => this.toggleChat());
+      
+      // Send message
+      sendBtn.addEventListener('click', () => this.sendMessage());
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') this.sendMessage();
+      });
+    }
+    
+    toggleChat() {
+      const window = document.getElementById('caelon-chat-window');
+      this.isOpen = !this.isOpen;
+      window.style.display = this.isOpen ? 'flex' : 'none';
+      
+      if (this.isOpen) {
+        document.getElementById('caelon-chat-input').focus();
+      }
+    }
+    
+    async sendMessage() {
+      const input = document.getElementById('caelon-chat-input');
+      const message = input.value.trim();
+      
+      if (!message) return;
+      
+      // Add user message to chat
+      this.addMessage(message, 'user');
+      input.value = '';
+      
+      // Add thinking indicator
+      const thinkingId = this.addMessage('Escribiendo...', 'bot', true);
       
       try {
-        chatLibrary.init({
-          webhookUrl: "https://n8n-n8n.a6mo3g.easypanel.host/webhook/c29801dd-6281-4e87-9c3f-7d6d00f5db5d/chat",
-          theme: {
-            chatWindow: {
-              backgroundColor: "#1A2634", // Azul marino oscuro
-              textColor: "#FFFFFF" // Blanco puro
-            },
-            button: {
-              backgroundColor: "#4FA8F0", // Azul cielo
-              textColor: "#FFFFFF",
-              hoverBackgroundColor: "#6FC0FF"
-            },
-            launcher: {
-              backgroundColor: "#4FA8F0", // Burbuja flotante azul cielo
-              hoverBackgroundColor: "#6FC0FF",
-              iconColor: "#FFFFFF" // Ícono blanco
-            }
+        // Send to n8n webhook
+        const response = await fetch(this.webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-          chatInputPlaceholder: "Escribe tu mensaje...",
-          initialMessages: ["¡Hola! Soy el asistente de Caelon AI. ¿En qué puedo ayudarte hoy?"],
-          showWelcomeScreen: false
+          body: JSON.stringify({
+            action: 'sendMessage',
+            sessionId: this.sessionId,
+            chatInput: message
+          })
         });
-        console.log("🎉 Chatbot inicializado exitosamente");
+        
+        const data = await response.json();
+        console.log('Respuesta del webhook:', data);
+        
+        // Remove thinking indicator
+        document.getElementById(thinkingId).remove();
+        
+        // Add bot response
+        const botMessage = data.output || data.chatOutput || data.response || 'Lo siento, no pude procesar tu mensaje.';
+        this.addMessage(botMessage, 'bot');
+        
       } catch (error) {
-        console.error("❌ Error al inicializar:", error);
+        console.error('Error sending message:', error);
+        document.getElementById(thinkingId).remove();
+        this.addMessage('Lo siento, hubo un error. Inténtalo de nuevo.', 'bot');
       }
-    } else {
-      console.error("❌ No se encontró la librería del chat o no tiene método init");
-      console.log("📋 Propiedades disponibles en window:", Object.keys(window).filter(key => key.toLowerCase().includes('chat')));
+    }
+    
+    addMessage(text, sender, isTemporary = false) {
+      const messagesContainer = document.getElementById('caelon-chat-messages');
+      const messageId = 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.id = messageId;
+      messageDiv.style.cssText = `
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        font-size: 14px;
+        max-width: 80%;
+        ${sender === 'user' ? `
+          background: #4FA8F0;
+          color: white;
+          margin-left: auto;
+          text-align: right;
+        ` : `
+          background: #333;
+          color: white;
+          margin-right: auto;
+        `}
+        ${isTemporary ? 'opacity: 0.7; font-style: italic;' : ''}
+      `;
+      
+      messageDiv.textContent = text;
+      messagesContainer.appendChild(messageDiv);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      return messageId;
     }
   }
   
-  // Crear y cargar el script
-  const script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/chat.umd.js';
-  
-  script.onload = function() {
-    console.log("✅ Script UMD cargado correctamente");
-    // Esperar un momento para que se registre en window
-    setTimeout(initializeChatbot, 100);
-  };
-  
-  script.onerror = function() {
-    console.error("❌ Error al cargar el script UMD");
-  };
-  
-  document.head.appendChild(script);
-  console.log("📡 Script UMD agregado al DOM...");
+  // Inicializar el chatbot cuando la página esté lista
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new CaelonChatbot());
+  } else {
+    new CaelonChatbot();
+  }
 </script>
 </body>
 </html>
