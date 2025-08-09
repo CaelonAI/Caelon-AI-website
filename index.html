@@ -649,32 +649,44 @@
     }
   </script>
 
- <!-- CHATBOT n8n INTEGRADO -->
+<!-- CHATBOT n8n - Versión corregida -->
 <script type="module">
-  import Chatbot from "https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js";
-
-  Chatbot.init({
-    webhookUrl: "https://n8n-n8n.a6mo3g.easypanel.host/webhook/c29801dd-6281-4e87-9c3f-7d6d00f5db5d/chat",
-    theme: {
-      chatWindow: {
-        backgroundColor: "#1A2634", // Azul marino oscuro
-        textColor: "#FFFFFF" // Blanco puro
+  console.log("🤖 Iniciando carga del chatbot de Caelon AI...");
+  
+  try {
+    // Importar correctamente sin "default"
+    const { init } = await import("https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js");
+    console.log("✅ Módulo del chatbot importado correctamente");
+    
+    // Inicializar el chatbot
+    init({
+      webhookUrl: "https://n8n-n8n.a6mo3g.easypanel.host/webhook/c29801dd-6281-4e87-9c3f-7d6d00f5db5d/chat",
+      theme: {
+        chatWindow: {
+          backgroundColor: "#1A2634", // Azul marino oscuro
+          textColor: "#FFFFFF" // Blanco puro
+        },
+        button: {
+          backgroundColor: "#4FA8F0", // Azul cielo
+          textColor: "#FFFFFF",
+          hoverBackgroundColor: "#6FC0FF"
+        },
+        launcher: {
+          backgroundColor: "#4FA8F0", // Burbuja flotante azul cielo
+          hoverBackgroundColor: "#6FC0FF",
+          iconColor: "#FFFFFF" // Ícono blanco
+        }
       },
-      button: {
-        backgroundColor: "#4FA8F0", // Azul cielo
-        textColor: "#FFFFFF", // Texto blanco en botones
-        hoverBackgroundColor: "#6FC0FF" // Azul cielo más claro en hover
-      },
-      launcher: {
-        backgroundColor: "#4FA8F0", // Burbuja flotante azul cielo sólido
-        hoverBackgroundColor: "#6FC0FF", // Hover azul cielo más claro
-        iconColor: "#FFFFFF" // Ícono blanco
-      }
-    },
-    chatInputPlaceholder: "Escribe tu mensaje...",
-    initialMessages: ["¡Hola! Soy el asistente de Caelon AI. ¿En qué puedo ayudarte hoy?"],
-    showWelcomeScreen: false
-  });
+      chatInputPlaceholder: "Escribe tu mensaje...",
+      initialMessages: ["¡Hola! Soy el asistente de Caelon AI. ¿En qué puedo ayudarte hoy?"],
+      showWelcomeScreen: false
+    });
+    
+    console.log("🎉 Chatbot inicializado exitosamente");
+    
+  } catch (error) {
+    console.error("❌ Error al cargar/inicializar el chatbot:", error);
+  }
 </script>
 </body>
 </html>
