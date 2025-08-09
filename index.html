@@ -612,24 +612,23 @@
       }
 
       // Scroll suave para enlaces con hash en la navegación
-      const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
-      navLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElem = document.getElementById(targetId);
-          if (!targetElem) return;
+      const allHashLinks = document.querySelectorAll('a[href^="#"]'); // Cambiar selector
+      allHashLinks.forEach(link => {
+      link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElem = document.getElementById(targetId);
+      if (!targetElem) return;
 
-          const offset = 70; // Altura navbar fija para evitar que tape contenido
-          const targetPosition = targetElem.getBoundingClientRect().top + window.pageYOffset - offset;
+      const offset = 70; // Altura navbar para evitar que tape contenido
+      const targetPosition = targetElem.getBoundingClientRect().top + window.pageYOffset - offset;
 
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
-        });
-      });
+      window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
     });
+  });
+});
 
    function handleSubmit(e) {
   e.preventDefault();
